@@ -64,7 +64,7 @@ public class Utilities {
 
     public static void rebuildAppBuildGradleFile(File output, String name, byte[] content, String compile_sdk_version, String build_tools_version, String pkg, String min_sdk_version, String target_sdk_version,
                                                  String core_ktx_version, String appcompat_version, String material_version, String navigation_compose_version, String paging_compose_version, String activity_compose_version,
-                                                 String hiltVersion, String room_version, String retrofit_version, String okhttp_version, String constraint_layout_compose_version,
+                                                 String hilt_version, String room_version, String retrofit_version, String okhttp_version, String constraint_layout_compose_version,
                                                  String glide_version, String datastore_version) throws IOException {
         String plain = new String(content, StandardCharsets.UTF_8);
         plain = StringUtils.replace(plain, "${compile_sdk_version}", compile_sdk_version);
@@ -78,7 +78,7 @@ public class Utilities {
         plain = StringUtils.replace(plain, "${navigation_compose_version}", navigation_compose_version);
         plain = StringUtils.replace(plain, "${paging_compose_version}", paging_compose_version);
         plain = StringUtils.replace(plain, "${activity_compose_version}", activity_compose_version);
-        plain = StringUtils.replace(plain, "${hilt_version}", hiltVersion);
+        plain = StringUtils.replace(plain, "${hilt_version}", hilt_version);
         plain = StringUtils.replace(plain, "${room_version}", room_version);
         plain = StringUtils.replace(plain, "${retrofit_version}", retrofit_version);
         plain = StringUtils.replace(plain, "${okhttp_version}", okhttp_version);
