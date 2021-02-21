@@ -41,7 +41,8 @@ public class ProjectCommand {
             @ShellOption(help = "datastore version", defaultValue = "1.0.0-alpha06") String datastoreVersion,
             @ShellOption(help = "kotlin version", defaultValue = "1.4.30") String kotlinVersion,
             @ShellOption(help = "hilt plugin version", defaultValue = "2.32-alpha") String hiltPluginVersion,
-            @ShellOption(help = "build tools gradle version", defaultValue = "7.0.0-alpha07") String buildToolGradleVersion) throws Throwable {
+            @ShellOption(help = "build tools gradle version", defaultValue = "7.0.0-alpha07") String buildToolGradleVersion,
+            @ShellOption(help = "android sdk dir") String sdkDir) throws Throwable {
         if (name.length() == 0) {
             return "invalid name";
         } else {
@@ -57,8 +58,6 @@ public class ProjectCommand {
 
         String sources = "app/src/main/java";
         String resources = "app/src/main/res";
-
-        String sdk_dir = "C:/android";
 
         String applicationIdFolder = StringUtils.replace(applicationId, ".", "/");
         int originalPkg = "com.angkorteam.blueprint.android".length();
@@ -107,7 +106,7 @@ public class ProjectCommand {
                             } else if (key.equals("build.gradle")) {
                                 Utilities.rebuildBuildGradleFile(workspace, key, content, composeVersion, kotlinVersion, hiltPluginVersion, buildToolGradleVersion);
                             } else if (key.equals("local.properties")) {
-                                Utilities.rebuildLocalPropertiesFile(workspace, key, content, sdk_dir);
+                                Utilities.rebuildLocalPropertiesFile(workspace, key, content, sdkDir);
                             } else if (key.equals("settings.gradle")) {
                                 Utilities.rebuildSettingsGradleFile(workspace, key, content, key);
                             } else if (key.equals("app/src/main/AndroidManifest.xml")) {
