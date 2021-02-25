@@ -65,7 +65,7 @@ public class Utilities {
     public static void rebuildAppBuildGradleFile(File output, String name, byte[] content, String compile_sdk_version, String build_tools_version, String pkg, String min_sdk_version, String target_sdk_version,
                                                  String core_ktx_version, String appcompat_version, String material_version, String navigation_compose_version, String paging_compose_version, String activity_compose_version,
                                                  String hilt_version, String room_version, String retrofit_version, String okhttp_version, String constraint_layout_compose_version,
-                                                 String glide_version, String datastore_version) throws IOException {
+                                                 String glide_version, String datastore_version, String lifecycle_viewmodel_compose_version) throws IOException {
         String plain = new String(content, StandardCharsets.UTF_8);
         plain = StringUtils.replace(plain, "${compile_sdk_version}", compile_sdk_version);
         plain = StringUtils.replace(plain, "${build_tools_version}", build_tools_version);
@@ -85,6 +85,7 @@ public class Utilities {
         plain = StringUtils.replace(plain, "${constraint_layout_compose_version}", constraint_layout_compose_version);
         plain = StringUtils.replace(plain, "${glide_version}", glide_version);
         plain = StringUtils.replace(plain, "${datastore_version}", datastore_version);
+        plain = StringUtils.replace(plain,"${lifecycle_viewmodel_compose_version}",lifecycle_viewmodel_compose_version);
         FileUtils.write(new File(output, name), plain, StandardCharsets.UTF_8);
     }
 
