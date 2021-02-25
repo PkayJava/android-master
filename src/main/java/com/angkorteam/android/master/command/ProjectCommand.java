@@ -20,7 +20,7 @@ public class ProjectCommand {
     public String create(
             @ShellOption(help = "name") String name,
             @ShellOption(help = "applicationId") String applicationId,
-            @ShellOption(help = "gradle version", defaultValue = "6.8.1") String gradleVersion,
+            @ShellOption(help = "gradle version", defaultValue = "6.8.2") String gradleVersion,
             @ShellOption(help = "compile sdk version", defaultValue = "30") String compileSdkVersion,
             @ShellOption(help = "build tools version", defaultValue = "30.0.3") String buildToolsVersion,
             @ShellOption(help = "min sdk version", defaultValue = "21") String minSdkVersion,
@@ -41,7 +41,7 @@ public class ProjectCommand {
             @ShellOption(help = "datastore version", defaultValue = "1.0.0-alpha06") String datastoreVersion,
             @ShellOption(help = "kotlin version", defaultValue = "1.4.30") String kotlinVersion,
             @ShellOption(help = "hilt plugin version", defaultValue = "2.32-alpha") String hiltPluginVersion,
-            @ShellOption(help = "build tools gradle version", defaultValue = "7.0.0-alpha07") String buildToolGradleVersion,
+            @ShellOption(help = "build tools gradle version", defaultValue = "7.0.0-alpha08") String buildToolGradleVersion,
             @ShellOption(help = "android sdk dir") String sdkDir) throws Throwable {
         if (name.length() == 0) {
             return "invalid name";
