@@ -4,21 +4,18 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class CACertProvider extends ValueProviderSupport {
+public class HiltPluginVersionProvider extends ValueProviderSupport {
 
-    public CACertProvider() {
-    }
+    public static final String V_2_32_ALPHA = "2.32-alpha";
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
-        proposal.add(new CompletionProposal("abc"));
+        proposal.add(new CompletionProposal(V_2_32_ALPHA));
         return proposal;
     }
 

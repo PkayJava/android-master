@@ -1,6 +1,7 @@
 package com.angkorteam.android.master.command;
 
 import com.angkorteam.android.master.Utilities;
+import com.angkorteam.android.master.support.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,29 +21,29 @@ public class ProjectCommand {
     public String create(
             @ShellOption(help = "name") String name,
             @ShellOption(help = "applicationId") String applicationId,
-            @ShellOption(help = "gradle version", defaultValue = "6.8.2") String gradleVersion,
-            @ShellOption(help = "compile sdk version", defaultValue = "30") String compileSdkVersion,
-            @ShellOption(help = "build tools version", defaultValue = "30.0.3") String buildToolsVersion,
-            @ShellOption(help = "min sdk version", defaultValue = "21") String minSdkVersion,
-            @ShellOption(help = "target sdk version", defaultValue = "30") String targetSdkVersion,
-            @ShellOption(help = "core ktx version", defaultValue = "1.5.0-beta01") String coreKtxVersion,
-            @ShellOption(help = "appcompat version", defaultValue = "1.3.0-beta01") String appcompatVersion,
-            @ShellOption(help = "material version", defaultValue = "1.3.0") String materialVersion,
-            @ShellOption(help = "navigation compose version", defaultValue = "1.0.0-alpha08") String navigationComposeVersion,
-            @ShellOption(help = "paging compose version", defaultValue = "1.0.0-alpha08") String pagingComposeVersion,
-            @ShellOption(help = "activity compose version", defaultValue = "1.3.0-alpha03") String activityComposeVersion,
-            @ShellOption(help = "hilt version", defaultValue = "1.0.0-alpha03") String hiltVersion,
-            @ShellOption(help = "room version", defaultValue = "2.3.0-beta02") String roomVersion,
-            @ShellOption(help = "retrofit version", defaultValue = "2.9.0") String retrofitVersion,
-            @ShellOption(help = "okhttp version", defaultValue = "4.9.1") String okhttpVersion,
-            @ShellOption(help = "constraint layout compose version", defaultValue = "1.0.0-alpha03") String constraintLayoutComposeVersion,
-            @ShellOption(help = "compose version", defaultValue = "1.0.0-alpha12") String composeVersion,
-            @ShellOption(help = "glide version", defaultValue = "4.12.0") String glideVersion,
-            @ShellOption(help = "datastore version", defaultValue = "1.0.0-alpha07") String datastoreVersion,
-            @ShellOption(help = "kotlin version", defaultValue = "1.4.30") String kotlinVersion,
-            @ShellOption(help = "hilt plugin version", defaultValue = "2.32-alpha") String hiltPluginVersion,
-            @ShellOption(help = "build tools gradle version", defaultValue = "7.0.0-alpha08") String buildToolGradleVersion,
-            @ShellOption(help = "compose viewmodel version", defaultValue = "1.0.0-alpha02") String lifecycleViewmodelComposeVersion,
+            @ShellOption(help = "gradle version", defaultValue = GradleVersionProvider.V_6_8_2, valueProvider = GradleVersionProvider.class) String gradleVersion,
+            @ShellOption(help = "compile sdk version", defaultValue = CompileSdkVersionProvider.V_30, valueProvider = CompileSdkVersionProvider.class) String compileSdkVersion,
+            @ShellOption(help = "build tools version", defaultValue = BuildToolVersionProvider.V_30_0_3, valueProvider = BuildToolVersionProvider.class) String buildToolsVersion,
+            @ShellOption(help = "min sdk version", defaultValue = MinSdkVersionProvider.V_21, valueProvider = MinSdkVersionProvider.class) String minSdkVersion,
+            @ShellOption(help = "target sdk version", defaultValue = TargetSdkVersionProvider.V_30, valueProvider = TargetSdkVersionProvider.class) String targetSdkVersion,
+            @ShellOption(help = "core ktx version", defaultValue = CoreKtxVersionProvider.V_1_3_2, valueProvider = CoreKtxVersionProvider.class) String coreKtxVersion,
+            @ShellOption(help = "appcompat version", defaultValue = AppCompatVersionProvider.V_1_2_0, valueProvider = AppCompatVersionProvider.class) String appCompatVersion,
+            @ShellOption(help = "material version", defaultValue = MaterialVersionProvider.V_1_3_0, valueProvider = MaterialVersionProvider.class) String materialVersion,
+            @ShellOption(help = "navigation compose version", defaultValue = NavigationComposeVersionProvider.V_1_0_0_ALPHA08, valueProvider = NavigationComposeVersionProvider.class) String navigationComposeVersion,
+            @ShellOption(help = "paging compose version", defaultValue = PagingComposeVersionProvider.V_1_0_0_ALPHA08, valueProvider = PagingComposeVersionProvider.class) String pagingComposeVersion,
+            @ShellOption(help = "activity compose version", defaultValue = ActivityComposeVersionProvider.V_1_3_0_ALPHA03, valueProvider = ActivityComposeVersionProvider.class) String activityComposeVersion,
+            @ShellOption(help = "hilt version", defaultValue = HiltVersionProvider.V_1_0_0_ALPHA03, valueProvider = HiltVersionProvider.class) String hiltVersion,
+            @ShellOption(help = "room version", defaultValue = RoomVersionProvider.V_2_3_0_BETA02, valueProvider = RoomVersionProvider.class) String roomVersion,
+            @ShellOption(help = "retrofit version", defaultValue = RetrofitVersionProvider.V_2_9_0, valueProvider = RetrofitVersionProvider.class) String retrofitVersion,
+            @ShellOption(help = "okhttp version", defaultValue = OkHttpVersionProvider.V_4_9_1, valueProvider = OkHttpVersionProvider.class) String okHttpVersion,
+            @ShellOption(help = "constraint layout compose version", defaultValue = ConstraintLayoutComposeVersionProvider.V_1_0_0_ALPHA03, valueProvider = ConstraintLayoutComposeVersionProvider.class) String constraintLayoutComposeVersion,
+            @ShellOption(help = "compose version", defaultValue = ComposeVersionProvider.V_1_0_0_BETA01, valueProvider = ComposeVersionProvider.class) String composeVersion,
+            @ShellOption(help = "glide version", defaultValue = GlideVersionProvider.V_4_12_0, valueProvider = GlideVersionProvider.class) String glideVersion,
+            @ShellOption(help = "datastore version", defaultValue = DatastoreVersionProvider.V_1_0_0_ALPHA07, valueProvider = DatastoreVersionProvider.class) String datastoreVersion,
+            @ShellOption(help = "kotlin version", defaultValue = KotlinVersionProvider.V_1_4_30, valueProvider = KotlinVersionProvider.class) String kotlinVersion,
+            @ShellOption(help = "hilt plugin version", defaultValue = HiltPluginVersionProvider.V_2_32_ALPHA, valueProvider = HiltPluginVersionProvider.class) String hiltPluginVersion,
+            @ShellOption(help = "build tools gradle version", defaultValue = BuildToolGradleVersionProvider.V_7_0_0_ALPHA08, valueProvider = BuildToolGradleVersionProvider.class) String buildToolGradleVersion,
+            @ShellOption(help = "compose view model version", defaultValue = ViewModelComposeVersionProvider.V_1_0_0_ALPHA02, valueProvider = ViewModelComposeVersionProvider.class) String viewModelComposeVersion,
             @ShellOption(help = "android sdk dir") String sdkDir) throws Throwable {
         if (name.length() == 0) {
             return "invalid name";
@@ -101,9 +102,9 @@ public class ProjectCommand {
                                 Utilities.rebuildGradleWrapperPropertiesFile(workspace, key, content, gradleVersion);
                             } else if (key.equals("app/build.gradle")) {
                                 Utilities.rebuildAppBuildGradleFile(workspace, key, content, compileSdkVersion, buildToolsVersion, applicationId, minSdkVersion, targetSdkVersion,
-                                        coreKtxVersion, appcompatVersion, materialVersion, navigationComposeVersion, pagingComposeVersion, activityComposeVersion,
-                                        hiltVersion, roomVersion, retrofitVersion, okhttpVersion, constraintLayoutComposeVersion,
-                                        glideVersion, datastoreVersion, lifecycleViewmodelComposeVersion);
+                                        coreKtxVersion, appCompatVersion, materialVersion, navigationComposeVersion, pagingComposeVersion, activityComposeVersion,
+                                        hiltVersion, roomVersion, retrofitVersion, okHttpVersion, constraintLayoutComposeVersion,
+                                        glideVersion, datastoreVersion, viewModelComposeVersion);
                             } else if (key.equals("build.gradle")) {
                                 Utilities.rebuildBuildGradleFile(workspace, key, content, composeVersion, kotlinVersion, hiltPluginVersion, buildToolGradleVersion);
                             } else if (key.equals("local.properties")) {
