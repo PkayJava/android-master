@@ -5,3 +5,4 @@
 /.settings/
 /android-master.iml
 .DS_Store
+/src/main/resources/blueprint/

@@ -44,6 +44,7 @@ public class ProjectCommand {
             @ShellOption(help = "hilt plugin version", defaultValue = HiltPluginVersionProvider.V_2_32_ALPHA, valueProvider = HiltPluginVersionProvider.class) String hiltPluginVersion,
             @ShellOption(help = "build tools gradle version", defaultValue = BuildToolGradleVersionProvider.V_7_0_0_ALPHA08, valueProvider = BuildToolGradleVersionProvider.class) String buildToolGradleVersion,
             @ShellOption(help = "compose view model version", defaultValue = ViewModelComposeVersionProvider.V_1_0_0_ALPHA02, valueProvider = ViewModelComposeVersionProvider.class) String viewModelComposeVersion,
+            @ShellOption(help = "lifecycle ktx version", defaultValue = LifecycleKtxVersionProvider.V_2_3_0, valueProvider = LifecycleKtxVersionProvider.class) String lifecycleKtxVersion,
             @ShellOption(help = "android sdk dir") String sdkDir) throws Throwable {
         if (name.length() == 0) {
             return "invalid name";
@@ -104,7 +105,7 @@ public class ProjectCommand {
                                 Utilities.rebuildAppBuildGradleFile(workspace, key, content, compileSdkVersion, buildToolsVersion, applicationId, minSdkVersion, targetSdkVersion,
                                         coreKtxVersion, appCompatVersion, materialVersion, navigationComposeVersion, pagingComposeVersion, activityComposeVersion,
                                         hiltVersion, roomVersion, retrofitVersion, okHttpVersion, constraintLayoutComposeVersion,
-                                        glideVersion, datastoreVersion, viewModelComposeVersion);
+                                        glideVersion, datastoreVersion, viewModelComposeVersion, lifecycleKtxVersion);
                             } else if (key.equals("build.gradle")) {
                                 Utilities.rebuildBuildGradleFile(workspace, key, content, composeVersion, kotlinVersion, hiltPluginVersion, buildToolGradleVersion);
                             } else if (key.equals("local.properties")) {
