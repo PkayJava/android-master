@@ -12,12 +12,15 @@ public class ConstraintLayoutComposeVersionProvider extends ValueProviderSupport
 
     public static final String V_1_0_0_ALPHA03 = "1.0.0-alpha03";
 
-    public static final String SELECTED = V_1_0_0_ALPHA03;
+    public static final String V_1_0_0_ALPHA04 = "1.0.0-alpha04";
+
+    public static final String SELECTED = V_1_0_0_ALPHA04;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA03));
+        proposal.add(new CompletionProposal(V_1_0_0_ALPHA04));
         return proposal;
     }
 

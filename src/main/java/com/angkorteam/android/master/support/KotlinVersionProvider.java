@@ -8,14 +8,22 @@ import org.springframework.shell.standard.ValueProviderSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * org.jetbrains.kotlin:kotlin-gradle-plugin
+ */
 public class KotlinVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_4_30 = "1.4.30";
+
+    public static final String V_1_4_31 = "1.4.31";
+
+    public static final String SELECTED = V_1_4_31;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_1_4_30));
+        proposal.add(new CompletionProposal(V_1_4_31));
         return proposal;
     }
 

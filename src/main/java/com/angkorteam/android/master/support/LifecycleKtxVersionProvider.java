@@ -12,6 +12,8 @@ public class LifecycleKtxVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_3_0 = "2.3.0";
 
+    public static final String SELECTED = V_2_3_0;
+
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();

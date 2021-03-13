@@ -14,6 +14,8 @@ public class MaterialVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_3_0 = "1.3.0";
 
+    public static final String SELECTED = V_1_3_0;
+
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();

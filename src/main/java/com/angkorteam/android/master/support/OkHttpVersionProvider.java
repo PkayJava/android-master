@@ -12,6 +12,8 @@ public class OkHttpVersionProvider extends ValueProviderSupport {
 
     public static final String V_4_9_1 = "4.9.1";
 
+    public static final String SELECTED = V_4_9_1;
+
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();

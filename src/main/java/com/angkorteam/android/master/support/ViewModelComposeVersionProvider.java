@@ -12,6 +12,8 @@ public class ViewModelComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_ALPHA02 = "1.0.0-alpha02";
 
+    public static final String SELECTED = V_1_0_0_ALPHA02;
+
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();

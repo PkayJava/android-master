@@ -12,6 +12,8 @@ public class PagingComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_ALPHA08 = "1.0.0-alpha08";
 
+    public static final String SELECTED = V_1_0_0_ALPHA08;
+
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();

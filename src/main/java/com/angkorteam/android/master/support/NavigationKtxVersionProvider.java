@@ -8,19 +8,19 @@ import org.springframework.shell.standard.ValueProviderSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomVersionProvider extends ValueProviderSupport {
+public class NavigationKtxVersionProvider extends ValueProviderSupport {
 
-    public static final String V_2_3_0_BETA02 = "2.3.0-beta02";
+    public static final String V_2_3_3 = "2.3.3";
 
-    public static final String V_2_3_0_BETA03 = "2.3.0-beta03";
+    public static final String V_2_3_4 = "2.3.4";
 
-    public static final String SELECTED = V_2_3_0_BETA03;
+    public static final String SELECTED = V_2_3_4;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
-        proposal.add(new CompletionProposal(V_2_3_0_BETA02));
-        proposal.add(new CompletionProposal(V_2_3_0_BETA03));
+        proposal.add(new CompletionProposal(V_2_3_3));
+        proposal.add(new CompletionProposal(V_2_3_4));
         return proposal;
     }
 

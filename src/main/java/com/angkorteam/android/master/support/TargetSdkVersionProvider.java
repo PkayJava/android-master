@@ -14,6 +14,8 @@ public class TargetSdkVersionProvider extends ValueProviderSupport {
 
     public static final String V_30 = "30";
 
+    public static final String SELECTED = V_30;
+
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
