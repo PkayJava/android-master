@@ -155,7 +155,7 @@ public class ProjectCommand {
                             } else if (key.equals("local.properties")) {
                                 Utilities.rebuildLocalPropertiesFile(workspace, key, content, sdkDir);
                             } else if (key.equals("settings.gradle")) {
-                                Utilities.rebuildSettingsGradleFile(workspace, key, content, key);
+                                Utilities.rebuildSettingsGradleFile(workspace, key, content, name);
                             } else if (key.equals("app/src/main/AndroidManifest.xml")) {
                                 Utilities.rebuildAndroidManifestXmlFile(workspace, key, content, applicationId);
                             } else {
