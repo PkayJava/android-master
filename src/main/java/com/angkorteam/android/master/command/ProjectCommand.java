@@ -60,11 +60,13 @@ public class ProjectCommand {
             }
         }
 
+        File sdkDirFile = null;
+
         if (sdkDir == null || "".equals(sdkDir)) {
             if (SystemUtils.IS_OS_MAC) {
                 String env = System.getenv("ANDROID_SDK_ROOT");
                 if (env != null && !"".equals(env)) {
-                    File sdkDirFile = new File(env);
+                    sdkDirFile = new File(env);
                     if (sdkDirFile.isDirectory()) {
                         sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
                     } else {
@@ -74,7 +76,7 @@ public class ProjectCommand {
                         }
                     }
                 } else {
-                    File sdkDirFile = new File(FileUtils.getUserDirectoryPath(), "Library/Android/sdk");
+                    sdkDirFile = new File(FileUtils.getUserDirectoryPath(), "Library/Android/sdk");
                     if (sdkDirFile.isDirectory()) {
                         sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
                     }
@@ -82,21 +84,24 @@ public class ProjectCommand {
             } else if (SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX) {
                 String env = System.getenv("ANDROID_SDK_ROOT");
                 if (env != null && !"".equals(env)) {
-                    File sdkDirFile = new File(env);
+                    sdkDirFile = new File(env);
                     if (sdkDirFile.isDirectory()) {
                         sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
+                        if (SystemUtils.IS_OS_WINDOWS) {
+                            sdkDir = StringUtils.replace(sdkDir, ":", "\\:");
+                        }
                     }
                 }
             }
         } else {
-            File sdkDirFile = new File(sdkDir);
+            sdkDirFile = new File(sdkDir);
             if (!sdkDirFile.isDirectory()) {
                 sdkDir = null;
             }
         }
 
         if (sdkDir != null && !"".equals(sdkDir)) {
-            System.out.println("Android SDK detected at " + sdkDir);
+            System.out.println("Android SDK detected at " + sdkDirFile.getAbsolutePath());
         }
 
         if (!applicationId.matches("^[a-z][a-z0-9]*(\\.[a-z0-9]+)+[0-9a-z]$")) {
