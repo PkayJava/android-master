@@ -135,7 +135,7 @@ public class ProjectCommand {
                             }
                         } else if (key.startsWith(sources)) {
                             if (key.endsWith(".kt")) {
-                                Utilities.rebuildKtFile(workspace, sources + "/" + applicationIdFolder + key.substring(sources.length() + 1 + originalPkg), content, applicationId);
+                                Utilities.rebuildKtFile(workspace, sources + "/" + applicationIdFolder + key.substring(sources.length() + 1 + originalPkg), content, applicationId, name);
                             } else {
                                 throw new IllegalArgumentException(key + " is not supported");
                             }

@@ -50,9 +50,10 @@ public class Utilities {
         fis.close();
     }
 
-    public static void rebuildKtFile(File output, String name, byte[] content, String pkg) throws IOException {
+    public static void rebuildKtFile(File output, String name, byte[] content, String pkg, String app_name) throws IOException {
         String plain = new String(content, StandardCharsets.UTF_8);
         plain = StringUtils.replace(plain, "${pkg}", pkg);
+        plain = StringUtils.replace(plain, "${app_name}", app_name);
         FileUtils.write(new File(output, name), plain, StandardCharsets.UTF_8);
     }
 
