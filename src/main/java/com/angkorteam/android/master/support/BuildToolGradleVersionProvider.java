@@ -17,7 +17,9 @@ public class BuildToolGradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_7_0_0_ALPHA09 = "7.0.0-alpha09";
 
-    public static final String SELECTED = V_7_0_0_ALPHA09;
+    public static final String V_7_0_0_ALPHA10 = "7.0.0-alpha10";
+
+    public static final String SELECTED = V_7_0_0_ALPHA10;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
