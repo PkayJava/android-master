@@ -28,6 +28,8 @@ public class BuildToolGradleVersionProvider extends ValueProviderSupport {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA08));
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA09));
+        proposal.add(new CompletionProposal(V_7_0_0_ALPHA10));
+        proposal.add(new CompletionProposal(V_7_0_0_ALPHA11));
         return proposal;
     }
 

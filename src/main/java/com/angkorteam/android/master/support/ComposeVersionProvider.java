@@ -19,6 +19,7 @@ public class ComposeVersionProvider extends ValueProviderSupport {
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
+        proposal.add(new CompletionProposal(V_1_0_0_BETA01));
         proposal.add(new CompletionProposal(V_1_0_0_BETA02));
         return proposal;
     }
