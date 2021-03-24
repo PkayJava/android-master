@@ -8,19 +8,25 @@ import org.springframework.shell.standard.ValueProviderSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * androidx.activity:activity-compose
+ */
 public class ActivityComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_3_0_ALPHA03 = "1.3.0-alpha03";
 
     public static final String V_1_3_0_ALPHA04 = "1.3.0-alpha04";
 
-    public static final String SELECTED = V_1_3_0_ALPHA03;
+    public static final String V_1_3_0_ALPHA05 = "1.3.0-alpha05";
+
+    public static final String SELECTED = V_1_3_0_ALPHA05;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_1_3_0_ALPHA03));
         proposal.add(new CompletionProposal(V_1_3_0_ALPHA04));
+        proposal.add(new CompletionProposal(V_1_3_0_ALPHA05));
         return proposal;
     }
 
