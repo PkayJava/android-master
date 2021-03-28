@@ -36,6 +36,7 @@ public class ProjectCommand {
             @ShellOption(help = "navigation ktx version", defaultValue = NavigationKtxVersionProvider.SELECTED, valueProvider = NavigationKtxVersionProvider.class) String navigationKtxVersion,
             @ShellOption(help = "navigation compose version", defaultValue = NavigationComposeVersionProvider.SELECTED, valueProvider = NavigationComposeVersionProvider.class) String navigationComposeVersion,
             @ShellOption(help = "paging compose version", defaultValue = PagingComposeVersionProvider.SELECTED, valueProvider = PagingComposeVersionProvider.class) String pagingComposeVersion,
+            @ShellOption(help = "accompanist glide version", defaultValue = AccompanistGlideVersionProvider.SELECTED, valueProvider = AccompanistGlideVersionProvider.class) String accompanistGlideVersion,
             @ShellOption(help = "activity compose version", defaultValue = ActivityComposeVersionProvider.SELECTED, valueProvider = ActivityComposeVersionProvider.class) String activityComposeVersion,
             @ShellOption(help = "hilt version", defaultValue = HiltVersionProvider.SELECTED, valueProvider = HiltVersionProvider.class) String hiltVersion,
             @ShellOption(help = "room version", defaultValue = RoomVersionProvider.SELECTED, valueProvider = RoomVersionProvider.class) String roomVersion,
@@ -43,7 +44,6 @@ public class ProjectCommand {
             @ShellOption(help = "okhttp version", defaultValue = OkHttpVersionProvider.SELECTED, valueProvider = OkHttpVersionProvider.class) String okHttpVersion,
             @ShellOption(help = "constraint layout compose version", defaultValue = ConstraintLayoutComposeVersionProvider.SELECTED, valueProvider = ConstraintLayoutComposeVersionProvider.class) String constraintLayoutComposeVersion,
             @ShellOption(help = "compose version", defaultValue = ComposeVersionProvider.SELECTED, valueProvider = ComposeVersionProvider.class) String composeVersion,
-            @ShellOption(help = "glide version", defaultValue = GlideVersionProvider.SELECTED, valueProvider = GlideVersionProvider.class) String glideVersion,
             @ShellOption(help = "datastore version", defaultValue = DatastoreVersionProvider.SELECTED, valueProvider = DatastoreVersionProvider.class) String datastoreVersion,
             @ShellOption(help = "kotlin version", defaultValue = KotlinVersionProvider.SELECTED, valueProvider = KotlinVersionProvider.class) String kotlinVersion,
             @ShellOption(help = "hilt plugin version", defaultValue = HiltPluginVersionProvider.SELECTED, valueProvider = HiltPluginVersionProvider.class) String hiltPluginVersion,
@@ -152,9 +152,9 @@ public class ProjectCommand {
                                 Utilities.rebuildGradleWrapperPropertiesFile(workspace, key, content, gradleVersion);
                             } else if (key.equals("app/build.gradle")) {
                                 Utilities.rebuildAppBuildGradleFile(workspace, key, content, compileSdkVersion, buildToolsVersion, applicationId, minSdkVersion, targetSdkVersion,
-                                        coreKtxVersion, appCompatVersion, materialVersion, navigationComposeVersion, navigationKtxVersion, pagingComposeVersion, activityComposeVersion,
+                                        coreKtxVersion, appCompatVersion, materialVersion, navigationComposeVersion, navigationKtxVersion, pagingComposeVersion, activityComposeVersion, accompanistGlideVersion,
                                         hiltVersion, roomVersion, retrofitVersion, okHttpVersion, constraintLayoutComposeVersion,
-                                        glideVersion, datastoreVersion, viewModelComposeVersion, lifecycleKtxVersion);
+                                        datastoreVersion, viewModelComposeVersion, lifecycleKtxVersion);
                             } else if (key.equals("build.gradle")) {
                                 Utilities.rebuildBuildGradleFile(workspace, key, content, composeVersion, kotlinVersion, hiltPluginVersion, buildToolGradleVersion);
                             } else if (key.equals("local.properties")) {
