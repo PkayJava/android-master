@@ -25,7 +25,9 @@ public class BuildToolGradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_7_0_0_ALPHA13 = "7.0.0-alpha13";
 
-    public static final String SELECTED = V_7_0_0_ALPHA13;
+    public static final String V_7_0_0_ALPHA14 = "7.0.0-alpha14";
+
+    public static final String SELECTED = V_7_0_0_ALPHA14;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -36,6 +38,7 @@ public class BuildToolGradleVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA11));
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA12));
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA13));
+        proposal.add(new CompletionProposal(V_7_0_0_ALPHA14));
         return proposal;
     }
 
