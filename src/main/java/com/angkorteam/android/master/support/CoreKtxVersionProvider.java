@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * androidx.core:core-ktx
+ */
 @Component
 public class CoreKtxVersionProvider extends ValueProviderSupport {
 

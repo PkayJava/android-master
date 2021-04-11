@@ -4,10 +4,12 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class OkHttpVersionProvider extends ValueProviderSupport {
 
     public static final String V_4_9_1 = "4.9.1";

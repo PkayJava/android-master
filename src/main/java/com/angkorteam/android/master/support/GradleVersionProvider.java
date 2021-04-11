@@ -4,10 +4,12 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class GradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_6_8_2 = "6.8.2";

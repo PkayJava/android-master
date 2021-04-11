@@ -4,6 +4,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * androidx.lifecycle:lifecycle-runtime-ktx
  */
+@Component
 public class LifecycleKtxVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_3_0 = "2.3.0";

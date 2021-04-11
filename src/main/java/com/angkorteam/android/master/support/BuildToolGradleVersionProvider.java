@@ -4,6 +4,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * com.android.tools.build:gradle
  */
+@Component
 public class BuildToolGradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_7_0_0_ALPHA08 = "7.0.0-alpha08";

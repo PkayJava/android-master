@@ -4,10 +4,15 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * androidx.room:room-runtime
+ */
+@Component
 public class RoomVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_3_0_BETA02 = "2.3.0-beta02";

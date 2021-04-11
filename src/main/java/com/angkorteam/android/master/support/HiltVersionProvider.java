@@ -4,10 +4,15 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * androidx.hilt:hilt-navigation-fragment
+ */
+@Component
 public class HiltVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_ALPHA03 = "1.0.0-alpha03";

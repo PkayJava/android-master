@@ -4,10 +4,12 @@ import org.springframework.core.MethodParameter;
 import org.springframework.shell.CompletionContext;
 import org.springframework.shell.CompletionProposal;
 import org.springframework.shell.standard.ValueProviderSupport;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class RetrofitVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_9_0 = "2.9.0";
