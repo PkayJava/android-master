@@ -20,7 +20,9 @@ public class ComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_BETA04 = "1.0.0-beta04";
 
-    public static final String SELECTED = V_1_0_0_BETA04;
+    public static final String V_1_0_0_BETA05 = "1.0.0-beta05";
+
+    public static final String SELECTED = V_1_0_0_BETA05;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -29,6 +31,7 @@ public class ComposeVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_0_0_BETA02));
         proposal.add(new CompletionProposal(V_1_0_0_BETA03));
         proposal.add(new CompletionProposal(V_1_0_0_BETA04));
+        proposal.add(new CompletionProposal(V_1_0_0_BETA05));
         return proposal;
     }
 
