@@ -1,31 +1,7 @@
 package com.angkorteam.android.master.command;
 
 import com.angkorteam.android.master.Utilities;
-import com.angkorteam.android.master.support.AccompanistGlideVersionProvider;
-import com.angkorteam.android.master.support.ActivityComposeVersionProvider;
-import com.angkorteam.android.master.support.AppCompatVersionProvider;
-import com.angkorteam.android.master.support.BuildToolGradleVersionProvider;
-import com.angkorteam.android.master.support.BuildToolsVersionProvider;
-import com.angkorteam.android.master.support.CompileSdkVersionProvider;
-import com.angkorteam.android.master.support.ComposeVersionProvider;
-import com.angkorteam.android.master.support.ConstraintLayoutComposeVersionProvider;
-import com.angkorteam.android.master.support.CoreKtxVersionProvider;
-import com.angkorteam.android.master.support.DatastoreVersionProvider;
-import com.angkorteam.android.master.support.GradleVersionProvider;
-import com.angkorteam.android.master.support.HiltPluginVersionProvider;
-import com.angkorteam.android.master.support.HiltVersionProvider;
-import com.angkorteam.android.master.support.KotlinVersionProvider;
-import com.angkorteam.android.master.support.LifecycleKtxVersionProvider;
-import com.angkorteam.android.master.support.MaterialVersionProvider;
-import com.angkorteam.android.master.support.MinSdkVersionProvider;
-import com.angkorteam.android.master.support.NavigationComposeVersionProvider;
-import com.angkorteam.android.master.support.NavigationKtxVersionProvider;
-import com.angkorteam.android.master.support.OkHttpVersionProvider;
-import com.angkorteam.android.master.support.PagingComposeVersionProvider;
-import com.angkorteam.android.master.support.RetrofitVersionProvider;
-import com.angkorteam.android.master.support.RoomVersionProvider;
-import com.angkorteam.android.master.support.TargetSdkVersionProvider;
-import com.angkorteam.android.master.support.ViewModelComposeVersionProvider;
+import com.angkorteam.android.master.support.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -58,7 +34,7 @@ public class ProjectCommand {
             @ShellOption(help = "activity compose version", defaultValue = ActivityComposeVersionProvider.SELECTED, valueProvider = ActivityComposeVersionProvider.class) String activityComposeVersion,
             @ShellOption(help = "hilt version", defaultValue = HiltVersionProvider.SELECTED, valueProvider = HiltVersionProvider.class) String hiltVersion,
             @ShellOption(help = "room version", defaultValue = RoomVersionProvider.SELECTED, valueProvider = RoomVersionProvider.class) String roomVersion,
-            @ShellOption(help = "retrofit version", defaultValue = RetrofitVersionProvider.SELECTED, valueProvider = RetrofitVersionProvider.class) String retrofitVersion,
+            @ShellOption(help = "commons-io version", defaultValue = CommonsIOVersionProvider.SELECTED, valueProvider = CommonsIOVersionProvider.class) String commonsIOVersion,
             @ShellOption(help = "okhttp version", defaultValue = OkHttpVersionProvider.SELECTED, valueProvider = OkHttpVersionProvider.class) String okHttpVersion,
             @ShellOption(help = "constraint layout compose version", defaultValue = ConstraintLayoutComposeVersionProvider.SELECTED, valueProvider = ConstraintLayoutComposeVersionProvider.class) String constraintLayoutComposeVersion,
             @ShellOption(help = "compose version", defaultValue = ComposeVersionProvider.SELECTED, valueProvider = ComposeVersionProvider.class) String composeVersion,
@@ -68,6 +44,7 @@ public class ProjectCommand {
             @ShellOption(help = "build tools gradle version", defaultValue = BuildToolGradleVersionProvider.SELECTED, valueProvider = BuildToolGradleVersionProvider.class) String buildToolGradleVersion,
             @ShellOption(help = "compose view model version", defaultValue = ViewModelComposeVersionProvider.SELECTED, valueProvider = ViewModelComposeVersionProvider.class) String viewModelComposeVersion,
             @ShellOption(help = "lifecycle ktx version", defaultValue = LifecycleKtxVersionProvider.SELECTED, valueProvider = LifecycleKtxVersionProvider.class) String lifecycleKtxVersion,
+            @ShellOption(help = "gson version", defaultValue = GsonVersionProvider.SELECTED, valueProvider = GsonVersionProvider.class) String gsonVersion,
             @ShellOption(help = "android sdk dir", defaultValue = NULL) String sdkDir) throws Throwable {
 
         Map<String, String> params = new HashMap<>();
@@ -90,7 +67,7 @@ public class ProjectCommand {
         params.put("accompanistGlideVersion", accompanistGlideVersion);
         params.put("hiltVersion", hiltVersion);
         params.put("roomVersion", roomVersion);
-        params.put("retrofitVersion", retrofitVersion);
+        params.put("commonsIOVersion", commonsIOVersion);
         params.put("okHttpVersion", okHttpVersion);
         params.put("constraintLayoutComposeVersion", constraintLayoutComposeVersion);
         params.put("datastoreVersion", datastoreVersion);
@@ -100,6 +77,7 @@ public class ProjectCommand {
         params.put("kotlinVersion", kotlinVersion);
         params.put("hiltPluginVersion", hiltPluginVersion);
         params.put("buildToolGradleVersion", buildToolGradleVersion);
+        params.put("gsonVersion", gsonVersion);
 
         if (name.length() == 0) {
             return "invalid name";
