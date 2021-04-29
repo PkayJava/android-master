@@ -52,8 +52,8 @@ import java.util.zip.ZipOutputStream;
 public class Utilities {
 
     public static void main(String[] args) throws IOException {
-        String name = "abc";
-        String applicationId = "abc.abc";
+        String name = "mock";
+        String applicationId = "mock.com";
         String gradleVersion = GradleVersionProvider.SELECTED;
         String compileSdkVersion = CompileSdkVersionProvider.SELECTED;
         String buildToolsVersion = BuildToolsVersionProvider.SELECTED;
