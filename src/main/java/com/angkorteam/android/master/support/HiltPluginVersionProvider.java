@@ -21,7 +21,7 @@ public class HiltPluginVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_35_1 = "2.35.1";
 
-    public static final String SELECTED = V_2_35_1;
+    public static final String SELECTED = V_2_32_ALPHA;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {

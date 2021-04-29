@@ -7,6 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import ${pkg}.common.AndroidDispatcherProvider
+import ${pkg}.common.DispatcherProvider
 import javax.inject.Singleton
 
 @Module
@@ -18,5 +22,11 @@ object AppModule {
     fun provideApplication(@ApplicationContext app: Context): MainApplication {
         return app as MainApplication
     }
-    
+
+    @Singleton
+    @Provides
+    fun providerDispatchers(): DispatcherProvider {
+        return AndroidDispatcherProvider()
+    }
+
 }

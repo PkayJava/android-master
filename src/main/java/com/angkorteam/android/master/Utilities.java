@@ -66,7 +66,7 @@ public class Utilities {
         String navigationKtxVersion = NavigationKtxVersionProvider.SELECTED;
         String pagingComposeVersion = PagingComposeVersionProvider.SELECTED;
         String activityComposeVersion = ActivityComposeVersionProvider.SELECTED;
-        String accompanistGlideVersion = AccompanistGlideVersionProvider.SELECTED;
+        String accompanistVersion = AccompanistGlideVersionProvider.SELECTED;
         String hiltVersion = HiltVersionProvider.SELECTED;
         String roomVersion = RoomVersionProvider.SELECTED;
         String retrofitVersion = RetrofitVersionProvider.SELECTED;
@@ -96,7 +96,7 @@ public class Utilities {
         params.put("navigationKtxVersion", navigationKtxVersion);
         params.put("pagingComposeVersion", pagingComposeVersion);
         params.put("activityComposeVersion", activityComposeVersion);
-        params.put("accompanistGlideVersion", accompanistGlideVersion);
+        params.put("accompanistVersion", accompanistVersion);
         params.put("hiltVersion", hiltVersion);
         params.put("roomVersion", roomVersion);
         params.put("retrofitVersion", retrofitVersion);
@@ -171,7 +171,7 @@ public class Utilities {
     }
 
     public static void rebuildAppBuildGradleFile(File output, String name, byte[] content, String compile_sdk_version, String build_tools_version, String pkg, String min_sdk_version, String target_sdk_version,
-                                                 String core_ktx_version, String appcompat_version, String material_version, String navigation_compose_version, String navigation_ktx_version, String paging_compose_version, String activity_compose_version, String accompanist_glide_version,
+                                                 String core_ktx_version, String appcompat_version, String material_version, String navigation_compose_version, String navigation_ktx_version, String paging_compose_version, String activity_compose_version, String accompanist_version,
                                                  String hilt_version, String room_version, String retrofit_version, String okhttp_version, String constraint_layout_compose_version,
                                                  String datastore_version, String view_model_compose_version,
                                                  String lifecycle_ktx_version) throws IOException {
@@ -187,7 +187,7 @@ public class Utilities {
         plain = StringUtils.replace(plain, "${navigation_ktx_version}", navigation_ktx_version);
         plain = StringUtils.replace(plain, "${navigation_compose_version}", navigation_compose_version);
         plain = StringUtils.replace(plain, "${paging_compose_version}", paging_compose_version);
-        plain = StringUtils.replace(plain, "${accompanist_glide_version}", accompanist_glide_version);
+        plain = StringUtils.replace(plain, "${accompanist_version}", accompanist_version);
         plain = StringUtils.replace(plain, "${activity_compose_version}", activity_compose_version);
         plain = StringUtils.replace(plain, "${hilt_version}", hilt_version);
         plain = StringUtils.replace(plain, "${room_version}", room_version);
@@ -325,7 +325,7 @@ public class Utilities {
                         FileUtils.writeByteArrayToFile(new File(workspace, key), content);
                     }
                 } else if (key.startsWith(sources)) {
-                    if (key.endsWith(".kt")) {
+                    if (key.endsWith(".kt") || key.endsWith(".java")) {
                         Utilities.rebuildKtFile(workspace, sources + "/" + applicationIdFolder + key.substring(sources.length() + 1 + originalPkg), content, params.get("applicationId"), params.get("name"));
                     } else {
                         throw new IllegalArgumentException(key + " is not supported");
@@ -343,7 +343,7 @@ public class Utilities {
                         Utilities.rebuildGradleWrapperPropertiesFile(workspace, key, content, params.get("gradleVersion"));
                     } else if (key.equals("app/build.gradle")) {
                         Utilities.rebuildAppBuildGradleFile(workspace, key, content, params.get("compileSdkVersion"), params.get("buildToolsVersion"), params.get("applicationId"), params.get("minSdkVersion"), params.get("targetSdkVersion"),
-                                params.get("coreKtxVersion"), params.get("appCompatVersion"), params.get("materialVersion"), params.get("navigationComposeVersion"), params.get("navigationKtxVersion"), params.get("pagingComposeVersion"), params.get("activityComposeVersion"), params.get("accompanistGlideVersion"),
+                                params.get("coreKtxVersion"), params.get("appCompatVersion"), params.get("materialVersion"), params.get("navigationComposeVersion"), params.get("navigationKtxVersion"), params.get("pagingComposeVersion"), params.get("activityComposeVersion"), params.get("accompanistVersion"),
                                 params.get("hiltVersion"), params.get("roomVersion"), params.get("retrofitVersion"), params.get("okHttpVersion"), params.get("constraintLayoutComposeVersion"),
                                 params.get("datastoreVersion"), params.get("viewModelComposeVersion"), params.get("lifecycleKtxVersion"));
                     } else if (key.equals("build.gradle")) {

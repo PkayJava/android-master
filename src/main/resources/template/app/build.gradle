@@ -120,11 +120,15 @@ dependencies {
     def constraint_layout_compose_version = '${constraint_layout_compose_version}'
     implementation "androidx.constraintlayout:constraintlayout-compose:$constraint_layout_compose_version"
 
-    def accompanist_glide_version = '${accompanist_glide_version}'
-    implementation "com.google.accompanist:accompanist-glide:$accompanist_glide_version"
+    def accompanist_version = '${accompanist_version}'
+    implementation "com.google.accompanist:accompanist-glide:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     def datastore_version = '${datastore_version}'
     implementation "androidx.datastore:datastore:$datastore_version"
     implementation "androidx.datastore:datastore-core:$datastore_version"
     implementation "androidx.datastore:datastore-preferences:$datastore_version"
+
+    implementation "commons-io:commons-io:2.8.0"
 }

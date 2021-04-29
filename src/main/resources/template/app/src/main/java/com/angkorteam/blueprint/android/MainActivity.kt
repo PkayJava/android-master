@@ -13,54 +13,32 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import ${pkg}.view.DetailScreen
-import ${pkg}.view.DetailScreenModel
-import ${pkg}.view.FontScreen
-import ${pkg}.view.ListScreen
-import ${pkg}.view.ListScreenModel
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ${pkg}.view.*
 
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @ExperimentalAnimatedInsets
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val controller = rememberNavController()
             NavHost(
-                navController = controller,
-                startDestination = "/home"
+                    navController = controller,
+                    startDestination = "/login"
             ) {
                 composable(
-                    route = "/home"
-                ) { navBackStackEntry ->
-                    FontScreen()
-                }
-                composable(
-                    route = "/list"
+                        route = "/login"
                 ) { navBackStackEntry ->
                     val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-                    val model: ListScreenModel = viewModel("ListScreenModel", factory)
-                    ListScreen(controller = controller, model = model)
-                }
-                composable(
-                    route = "/detail/{entityId}",
-                    arguments = listOf(
-                        navArgument("entityId") {
-                            type = NavType.IntType
-                        }
-                    )
-                ) { navBackStackEntry ->
-                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-                    val model: DetailScreenModel = viewModel("DetailScreenModel", factory)
-                    DetailScreen(
-                        entityId = navBackStackEntry.arguments?.getInt("entityId"),
-                        model = model,
-                    )
+                    val model: LoginScreenModel = viewModel("LoginScreenModel", factory)
+                    LoginScreen(controller = controller, model = model)
                 }
             }
         }
