@@ -17,12 +17,21 @@ public class AccompanistGlideVersionProvider extends ValueProviderSupport {
 
     public static final String V_0_7_0 = "0.7.0";
 
-    public static final String SELECTED = V_0_7_0;
+    public static final String V_0_7_1 = "0.7.1";
+
+    public static final String V_0_8_0 = "0.8.0";
+
+    public static final String V_0_8_1 = "0.8.1";
+
+    public static final String SELECTED = V_0_8_1;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_0_7_0));
+        proposal.add(new CompletionProposal(V_0_7_1));
+        proposal.add(new CompletionProposal(V_0_8_0));
+        proposal.add(new CompletionProposal(V_0_8_1));
         return proposal;
     }
 

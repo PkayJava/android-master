@@ -1,22 +1,40 @@
 package com.angkorteam.android.master.command;
 
 import com.angkorteam.android.master.Utilities;
-import com.angkorteam.android.master.support.*;
+import com.angkorteam.android.master.support.AccompanistGlideVersionProvider;
+import com.angkorteam.android.master.support.ActivityComposeVersionProvider;
+import com.angkorteam.android.master.support.AppCompatVersionProvider;
+import com.angkorteam.android.master.support.BuildToolGradleVersionProvider;
+import com.angkorteam.android.master.support.BuildToolsVersionProvider;
+import com.angkorteam.android.master.support.CompileSdkVersionProvider;
+import com.angkorteam.android.master.support.ComposeVersionProvider;
+import com.angkorteam.android.master.support.ConstraintLayoutComposeVersionProvider;
+import com.angkorteam.android.master.support.CoreKtxVersionProvider;
+import com.angkorteam.android.master.support.DatastoreVersionProvider;
+import com.angkorteam.android.master.support.GradleVersionProvider;
+import com.angkorteam.android.master.support.HiltPluginVersionProvider;
+import com.angkorteam.android.master.support.HiltVersionProvider;
+import com.angkorteam.android.master.support.KotlinVersionProvider;
+import com.angkorteam.android.master.support.LifecycleKtxVersionProvider;
+import com.angkorteam.android.master.support.MaterialVersionProvider;
+import com.angkorteam.android.master.support.MinSdkVersionProvider;
+import com.angkorteam.android.master.support.NavigationComposeVersionProvider;
+import com.angkorteam.android.master.support.NavigationKtxVersionProvider;
+import com.angkorteam.android.master.support.OkHttpVersionProvider;
+import com.angkorteam.android.master.support.PagingComposeVersionProvider;
+import com.angkorteam.android.master.support.RetrofitVersionProvider;
+import com.angkorteam.android.master.support.RoomVersionProvider;
+import com.angkorteam.android.master.support.TargetSdkVersionProvider;
+import com.angkorteam.android.master.support.ViewModelComposeVersionProvider;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import static org.springframework.shell.standard.ShellOption.NULL;
 
 import java.io.File;
-import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import static org.springframework.shell.standard.ShellOption.NULL;
+import java.util.HashMap;
+import java.util.Map;
 
 @ShellComponent
 public class ProjectCommand {
@@ -27,7 +45,7 @@ public class ProjectCommand {
             @ShellOption(help = "applicationId") String applicationId,
             @ShellOption(help = "gradle version", defaultValue = GradleVersionProvider.SELECTED, valueProvider = GradleVersionProvider.class) String gradleVersion,
             @ShellOption(help = "compile sdk version", defaultValue = CompileSdkVersionProvider.SELECTED, valueProvider = CompileSdkVersionProvider.class) String compileSdkVersion,
-            @ShellOption(help = "build tools version", defaultValue = BuildToolVersionProvider.SELECTED, valueProvider = BuildToolVersionProvider.class) String buildToolsVersion,
+            @ShellOption(help = "build tools version", defaultValue = BuildToolsVersionProvider.SELECTED, valueProvider = BuildToolsVersionProvider.class) String buildToolsVersion,
             @ShellOption(help = "min sdk version", defaultValue = MinSdkVersionProvider.SELECTED, valueProvider = MinSdkVersionProvider.class) String minSdkVersion,
             @ShellOption(help = "target sdk version", defaultValue = TargetSdkVersionProvider.SELECTED, valueProvider = TargetSdkVersionProvider.class) String targetSdkVersion,
             @ShellOption(help = "core ktx version", defaultValue = CoreKtxVersionProvider.SELECTED, valueProvider = CoreKtxVersionProvider.class) String coreKtxVersion,
@@ -51,6 +69,38 @@ public class ProjectCommand {
             @ShellOption(help = "compose view model version", defaultValue = ViewModelComposeVersionProvider.SELECTED, valueProvider = ViewModelComposeVersionProvider.class) String viewModelComposeVersion,
             @ShellOption(help = "lifecycle ktx version", defaultValue = LifecycleKtxVersionProvider.SELECTED, valueProvider = LifecycleKtxVersionProvider.class) String lifecycleKtxVersion,
             @ShellOption(help = "android sdk dir", defaultValue = NULL) String sdkDir) throws Throwable {
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("name", name);
+        params.put("sdkDir", sdkDir);
+        params.put("applicationId", applicationId);
+        params.put("gradleVersion", gradleVersion);
+        params.put("compileSdkVersion", compileSdkVersion);
+        params.put("buildToolsVersion", buildToolsVersion);
+        params.put("minSdkVersion", minSdkVersion);
+        params.put("targetSdkVersion", targetSdkVersion);
+        params.put("coreKtxVersion", coreKtxVersion);
+        params.put("appCompatVersion", appCompatVersion);
+        params.put("materialVersion", materialVersion);
+        params.put("navigationComposeVersion", navigationComposeVersion);
+        params.put("navigationKtxVersion", navigationKtxVersion);
+        params.put("pagingComposeVersion", pagingComposeVersion);
+        params.put("activityComposeVersion", activityComposeVersion);
+        params.put("accompanistGlideVersion", accompanistGlideVersion);
+        params.put("hiltVersion", hiltVersion);
+        params.put("roomVersion", roomVersion);
+        params.put("retrofitVersion", retrofitVersion);
+        params.put("okHttpVersion", okHttpVersion);
+        params.put("constraintLayoutComposeVersion", constraintLayoutComposeVersion);
+        params.put("datastoreVersion", datastoreVersion);
+        params.put("viewModelComposeVersion", viewModelComposeVersion);
+        params.put("lifecycleKtxVersion", lifecycleKtxVersion);
+        params.put("composeVersion", composeVersion);
+        params.put("kotlinVersion", kotlinVersion);
+        params.put("hiltPluginVersion", hiltPluginVersion);
+        params.put("buildToolGradleVersion", buildToolGradleVersion);
+
         if (name.length() == 0) {
             return "invalid name";
         } else {
@@ -60,125 +110,17 @@ public class ProjectCommand {
             }
         }
 
-        File sdkDirFile = null;
-
-        if (sdkDir == null || "".equals(sdkDir)) {
-            if (SystemUtils.IS_OS_MAC) {
-                String env = System.getenv("ANDROID_SDK_ROOT");
-                if (env != null && !"".equals(env)) {
-                    sdkDirFile = new File(env);
-                    if (sdkDirFile.isDirectory()) {
-                        sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
-                    } else {
-                        sdkDirFile = new File(FileUtils.getUserDirectoryPath(), "Library/Android/sdk");
-                        if (sdkDirFile.isDirectory()) {
-                            sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
-                        }
-                    }
-                } else {
-                    sdkDirFile = new File(FileUtils.getUserDirectoryPath(), "Library/Android/sdk");
-                    if (sdkDirFile.isDirectory()) {
-                        sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
-                    }
-                }
-            } else if (SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX) {
-                String env = System.getenv("ANDROID_SDK_ROOT");
-                if (env != null && !"".equals(env)) {
-                    sdkDirFile = new File(env);
-                    if (sdkDirFile.isDirectory()) {
-                        sdkDir = FilenameUtils.normalize(sdkDirFile.getAbsolutePath(), true);
-                        if (SystemUtils.IS_OS_WINDOWS) {
-                            sdkDir = StringUtils.replace(sdkDir, ":", "\\:");
-                        }
-                    }
-                }
-            }
-        } else {
-            sdkDirFile = new File(sdkDir);
-            if (!sdkDirFile.isDirectory()) {
-                sdkDir = null;
-            }
-        }
-
-        if (sdkDir != null && !"".equals(sdkDir)) {
-            System.out.println("Android SDK detected at " + sdkDirFile.getAbsolutePath());
-        }
-
         if (!applicationId.matches("^[a-z][a-z0-9]*(\\.[a-z0-9]+)+[0-9a-z]$")) {
             return "invalid applicationId";
         }
 
-        String sources = "app/src/main/java";
-        String resources = "app/src/main/res";
-
-        String applicationIdFolder = StringUtils.replace(applicationId, ".", "/");
-        int originalPkg = "com.angkorteam.blueprint.android".length();
-
-        File workspace = new File(FileUtils.getTempDirectory(), RandomStringUtils.randomAlphanumeric(10));
-        workspace.mkdirs();
-
-        try (InputStream stream = ProjectCommand.class.getResourceAsStream("/blueprint.zip")) {
-            try (ZipInputStream zip = new ZipInputStream(stream)) {
-                while (true) {
-                    ZipEntry entry = zip.getNextEntry();
-                    if (entry == null) {
-                        break;
-                    }
-                    if (!entry.isDirectory()) {
-                        byte[] content = Utilities.readEntry(zip);
-                        String key = entry.getName();
-                        if (key.startsWith(resources)) {
-                            if (key.startsWith(resources + "/values") && key.endsWith("strings.xml")) {
-                                Utilities.rebuildStringsXmlFile(workspace, key, content, name);
-                            } else {
-                                FileUtils.writeByteArrayToFile(new File(workspace, key), content);
-                            }
-                        } else if (key.startsWith(sources)) {
-                            if (key.endsWith(".kt")) {
-                                Utilities.rebuildKtFile(workspace, sources + "/" + applicationIdFolder + key.substring(sources.length() + 1 + originalPkg), content, applicationId, name);
-                            } else {
-                                throw new IllegalArgumentException(key + " is not supported");
-                            }
-                        } else {
-                            if (key.equals("gradle/wrapper/gradle-wrapper.jar")
-                                    || key.equals("gradlew.bat")
-                                    || key.equals("gradlew")
-                                    || key.equals("gradle.properties")
-                                    || key.equals("app/.gitignore")
-                                    || key.equals(".gitignore")
-                                    || key.equals("app/proguard-rules.pro")) {
-                                FileUtils.writeByteArrayToFile(new File(workspace, key), content);
-                            } else if (key.equals("gradle/wrapper/gradle-wrapper.properties")) {
-                                Utilities.rebuildGradleWrapperPropertiesFile(workspace, key, content, gradleVersion);
-                            } else if (key.equals("app/build.gradle")) {
-                                Utilities.rebuildAppBuildGradleFile(workspace, key, content, compileSdkVersion, buildToolsVersion, applicationId, minSdkVersion, targetSdkVersion,
-                                        coreKtxVersion, appCompatVersion, materialVersion, navigationComposeVersion, navigationKtxVersion, pagingComposeVersion, activityComposeVersion, accompanistGlideVersion,
-                                        hiltVersion, roomVersion, retrofitVersion, okHttpVersion, constraintLayoutComposeVersion,
-                                        datastoreVersion, viewModelComposeVersion, lifecycleKtxVersion);
-                            } else if (key.equals("build.gradle")) {
-                                Utilities.rebuildBuildGradleFile(workspace, key, content, composeVersion, kotlinVersion, hiltPluginVersion, buildToolGradleVersion);
-                            } else if (key.equals("local.properties")) {
-                                Utilities.rebuildLocalPropertiesFile(workspace, key, content, sdkDir);
-                            } else if (key.equals("settings.gradle")) {
-                                Utilities.rebuildSettingsGradleFile(workspace, key, content, name);
-                            } else if (key.equals("app/src/main/AndroidManifest.xml")) {
-                                Utilities.rebuildAndroidManifestXmlFile(workspace, key, content, applicationId);
-                            } else {
-                                throw new IllegalArgumentException(key + " is not supported");
-                            }
-                        }
-                    }
-                    zip.closeEntry();
-                }
-            }
-        }
+        File workspace = Utilities.generate(params);
 
         File zip = new File(System.getProperty("user.dir"), name + ".zip");
         Utilities.zip(workspace, name, zip);
 
         FileUtils.deleteDirectory(workspace);
-
-        return zip.getName() + " was created";
+        return zip.getName();
     }
 
 }

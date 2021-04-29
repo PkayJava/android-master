@@ -19,13 +19,16 @@ public class HiltPluginVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_33_BETA = "2.33-beta";
 
-    public static final String SELECTED = V_2_33_BETA;
+    public static final String V_2_35_1 = "2.35.1";
+
+    public static final String SELECTED = V_2_35_1;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_2_32_ALPHA));
         proposal.add(new CompletionProposal(V_2_33_BETA));
+        proposal.add(new CompletionProposal(V_2_35_1));
         return proposal;
     }
 

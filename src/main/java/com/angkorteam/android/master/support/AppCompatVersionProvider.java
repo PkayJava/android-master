@@ -19,6 +19,8 @@ public class AppCompatVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_3_0_beta01 = "1.3.0-beta01";
 
+    public static final String V_1_3_0_rc01 = "1.3.0-rc01";
+
     public static final String SELECTED = V_1_2_0;
 
     @Override
@@ -26,6 +28,7 @@ public class AppCompatVersionProvider extends ValueProviderSupport {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_1_2_0));
         proposal.add(new CompletionProposal(V_1_3_0_beta01));
+        proposal.add(new CompletionProposal(V_1_3_0_rc01));
         return proposal;
     }
 

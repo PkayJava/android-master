@@ -19,6 +19,8 @@ public class LifecycleKtxVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_3_1 = "2.3.1";
 
+    public static final String V_2_4_0_alpha01 = "2.4.0-alpha01";
+
     public static final String SELECTED = V_2_3_1;
 
     @Override
@@ -26,6 +28,7 @@ public class LifecycleKtxVersionProvider extends ValueProviderSupport {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_2_3_0));
         proposal.add(new CompletionProposal(V_2_3_1));
+        proposal.add(new CompletionProposal(V_2_4_0_alpha01));
         return proposal;
     }
 

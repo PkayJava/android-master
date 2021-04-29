@@ -19,6 +19,8 @@ public class CoreKtxVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_5_0_beta01 = "1.5.0-beta01";
 
+    public static final String V_1_6_0_alpha02 = "1.6.0-alpha02";
+
     public static final String SELECTED = V_1_3_2;
 
     @Override
@@ -26,6 +28,7 @@ public class CoreKtxVersionProvider extends ValueProviderSupport {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_1_3_2));
         proposal.add(new CompletionProposal(V_1_5_0_beta01));
+        proposal.add(new CompletionProposal(V_1_6_0_alpha02));
         return proposal;
     }
 

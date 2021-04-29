@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BuildToolVersionProvider extends ValueProviderSupport {
+public class BuildToolsVersionProvider extends ValueProviderSupport {
 
     public static final String V_30_0_3 = "30.0.3";
 

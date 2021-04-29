@@ -21,6 +21,8 @@ public class KotlinVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_4_32 = "1.4.32";
 
+    public static final String V_1_5_0 = "1.5.0";
+
     public static final String SELECTED = V_1_4_32;
 
     @Override
