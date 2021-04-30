@@ -29,7 +29,7 @@ public class Utilities {
 
     public static void main(String[] args) throws IOException {
         String name = "mock";
-        String applicationId = "mock.com";
+        String applicationId = "mock.hello.com";
         String gradleVersion = GradleVersionProvider.SELECTED;
         String compileSdkVersion = CompileSdkVersionProvider.SELECTED;
         String buildToolsVersion = BuildToolsVersionProvider.SELECTED;
@@ -54,7 +54,7 @@ public class Utilities {
         String composeVersion = ComposeVersionProvider.SELECTED;
         String kotlinVersion = KotlinVersionProvider.SELECTED;
         String hiltPluginVersion = HiltPluginVersionProvider.SELECTED;
-        String buildToolGradleVersion = BuildToolGradleVersionProvider.SELECTED;
+        String buildToolGradleVersion = BuildToolsGradleVersionProvider.SELECTED;
         String gsonVersion = GsonVersionProvider.SELECTED;
 
         Map<String, String> params = new HashMap<>();
@@ -90,7 +90,7 @@ public class Utilities {
 
         File workspace = generate(params);
 
-        File dest = new File("/home/socheat/Documents/admock", name);
+        File dest = new File("/Users/macbook/github/PkayJava", name);
 
         FileUtils.copyDirectory(workspace, dest);
         FileUtils.deleteDirectory(workspace);

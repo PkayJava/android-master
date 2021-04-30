@@ -41,7 +41,7 @@ public class ProjectCommand {
             @ShellOption(help = "datastore version", defaultValue = DatastoreVersionProvider.SELECTED, valueProvider = DatastoreVersionProvider.class) String datastoreVersion,
             @ShellOption(help = "kotlin version", defaultValue = KotlinVersionProvider.SELECTED, valueProvider = KotlinVersionProvider.class) String kotlinVersion,
             @ShellOption(help = "hilt plugin version", defaultValue = HiltPluginVersionProvider.SELECTED, valueProvider = HiltPluginVersionProvider.class) String hiltPluginVersion,
-            @ShellOption(help = "build tools gradle version", defaultValue = BuildToolGradleVersionProvider.SELECTED, valueProvider = BuildToolGradleVersionProvider.class) String buildToolGradleVersion,
+            @ShellOption(help = "build tools gradle version", defaultValue = BuildToolsGradleVersionProvider.SELECTED, valueProvider = BuildToolsGradleVersionProvider.class) String buildToolGradleVersion,
             @ShellOption(help = "compose view model version", defaultValue = ViewModelComposeVersionProvider.SELECTED, valueProvider = ViewModelComposeVersionProvider.class) String viewModelComposeVersion,
             @ShellOption(help = "lifecycle ktx version", defaultValue = LifecycleKtxVersionProvider.SELECTED, valueProvider = LifecycleKtxVersionProvider.class) String lifecycleKtxVersion,
             @ShellOption(help = "gson version", defaultValue = GsonVersionProvider.SELECTED, valueProvider = GsonVersionProvider.class) String gsonVersion,

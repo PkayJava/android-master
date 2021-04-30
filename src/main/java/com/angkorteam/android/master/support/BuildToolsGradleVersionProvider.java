@@ -13,7 +13,7 @@ import java.util.List;
  * com.android.tools.build:gradle
  */
 @Component
-public class BuildToolGradleVersionProvider extends ValueProviderSupport {
+public class BuildToolsGradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_7_0_0_ALPHA08 = "7.0.0-alpha08";
 
@@ -29,7 +29,9 @@ public class BuildToolGradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_7_0_0_ALPHA14 = "7.0.0-alpha14";
 
-    public static final String SELECTED = V_7_0_0_ALPHA14;
+    public static final String V_7_0_0_ALPHA15 = "7.0.0-alpha15";
+
+    public static final String SELECTED = V_7_0_0_ALPHA15;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -41,6 +43,7 @@ public class BuildToolGradleVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA12));
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA13));
         proposal.add(new CompletionProposal(V_7_0_0_ALPHA14));
+        proposal.add(new CompletionProposal(V_7_0_0_ALPHA15));
         return proposal;
     }
 
