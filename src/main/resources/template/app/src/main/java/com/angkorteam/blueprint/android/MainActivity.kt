@@ -13,9 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import androidx.core.view.WindowCompat
 import ${pkg}.view.*
 
 @ExperimentalCoroutinesApi
@@ -27,18 +29,21 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            val controller = rememberNavController()
-            NavHost(
-                    navController = controller,
-                    startDestination = "/login"
-            ) {
-                composable(
-                        route = "/login"
-                ) { navBackStackEntry ->
-                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-                    val model: LoginScreenModel = viewModel("LoginScreenModel", factory)
-                    LoginScreen(controller = controller, model = model)
+            ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+                val controller = rememberNavController()
+                NavHost(
+                        navController = controller,
+                        startDestination = "/login"
+                ) {
+                    composable(
+                            route = "/login"
+                    ) { navBackStackEntry ->
+                        val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                        val model: LoginScreenModel = viewModel("LoginScreenModel", factory)
+                        LoginScreen(controller = controller, model = model)
+                    }
                 }
             }
         }

@@ -137,7 +137,7 @@ fun LoginScreen(
                                     fontSize = 26.sp
                                 )
                             ) {
-                                append(text = "SD ")
+                                append(text = "Login ")
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -146,7 +146,7 @@ fun LoginScreen(
                                     fontSize = 26.sp
                                 )
                             ) {
-                                append(text = "China")
+                                append(text = "UI")
                             }
                         }
                     )
