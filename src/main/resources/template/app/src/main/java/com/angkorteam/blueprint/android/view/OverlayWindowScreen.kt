@@ -1,9 +1,8 @@
 package ${pkg}.view
 
 import android.app.Activity
-import android.app.PictureInPictureParams
+import android.content.Intent
 import android.os.Build
-import android.util.Rational
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.camera.core.ExperimentalGetImage
 import androidx.compose.foundation.Image
@@ -24,7 +23,8 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.R
-import ${pkg}.common.PictureInPicturePermission
+import ${pkg}.common.LocalService
+import ${pkg}.common.OverlayWindowPermission
 import ${pkg}.theme.BlueprintMasterTheme
 import ${pkg}.widget.InsetAwareTopAppBar
 
@@ -33,11 +33,11 @@ import ${pkg}.widget.InsetAwareTopAppBar
 @ExperimentalMaterialApi
 @ExperimentalGetImage
 @Composable
-fun PictureInPictureScreen(
+fun OverlayWindowScreen(
     accessId: String,
     secretId: String,
     controller: NavHostController,
-    model: PictureInPictureScreenModel,
+    model: OverlayWindowScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -49,20 +49,22 @@ fun PictureInPictureScreen(
     var context = LocalContext.current as Activity
 
     val launcher = rememberLauncherForActivityResult(
-        PictureInPicturePermission()
+        OverlayWindowPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            model.updateState(state = PictureInPictureScreenModel.DataState.Normal)
+            model.updateState(state = OverlayWindowScreenModel.DataState.HIDE)
         } else {
-            model.updateState(state = PictureInPictureScreenModel.DataState.Permission)
+            model.updateState(state = OverlayWindowScreenModel.DataState.Permission)
         }
     }
 
-    if (!PictureInPicturePermission.hasPictureInPicture(context = context)) {
-        model.updateState(PictureInPictureScreenModel.DataState.Permission)
+    if (!OverlayWindowPermission.hasOverlay(context = context)) {
+        model.updateState(OverlayWindowScreenModel.DataState.Permission)
     }
 
-    if (dataState.value is PictureInPictureScreenModel.DataState.Normal) {
+    if (dataState.value is OverlayWindowScreenModel.DataState.SHOW ||
+        dataState.value is OverlayWindowScreenModel.DataState.HIDE
+    ) {
 
         BlueprintMasterTheme {
             Scaffold(
@@ -106,45 +108,33 @@ fun PictureInPictureScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            Button(onClick = {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    val pictureInPictureParamsBuilder =
-                                        PictureInPictureParams.Builder()
-                                    pictureInPictureParamsBuilder.setAspectRatio(
-                                        Rational(
-                                            16,
-                                            9
-                                        )
-                                    )
-//                                    val actions = ArrayList<RemoteAction>()
-//                                    actions.add(
-//                                        RemoteAction(
-//                                            android.graphics.drawable.Icon.createWithResource(
-//                                                context,
-//                                                R.drawable.ic_launcher_background
-//                                            ),
-//                                            "Title", "Description",
-//                                            PendingIntent.getActivity(
-//                                                context, 3,
-//                                                Intent(Intent.ACTION_VIEW, Uri.parse("ss")),
-//                                                0
-//                                            )
-//                                        )
-//                                    )
-//                                    pictureInPictureParamsBuilder.setActions(actions)
-                                    context.enterPictureInPictureMode(
-                                        pictureInPictureParamsBuilder.build()
-                                    )
+                            if (dataState.value is OverlayWindowScreenModel.DataState.HIDE) {
+                                Button(onClick = {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        var intent = Intent(context, LocalService::class.java)
+                                        intent.putExtra("ACTION", "SHOW")
+                                        context.startService(intent)
+                                    }
+                                }) {
+                                    Text(text = "Show")
                                 }
-                            }) {
-                                Text(text = "Picture In Picture")
+                            } else if (dataState.value is OverlayWindowScreenModel.DataState.SHOW) {
+                                Button(onClick = {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        var intent = Intent(context, LocalService::class.java)
+                                        intent.putExtra("ACTION", "HIDE")
+                                        context.startService(intent)
+                                    }
+                                }) {
+                                    Text(text = "Hide")
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    } else if (dataState.value is PictureInPictureScreenModel.DataState.Permission) {
+    } else if (dataState.value is OverlayWindowScreenModel.DataState.Permission) {
 
         BlueprintMasterTheme {
             Scaffold(
@@ -198,11 +188,6 @@ fun PictureInPictureScreen(
                 }
             }
         }
-    } else if (dataState.value is PictureInPictureScreenModel.DataState.P2P) {
-        Image(
-            painter = painterResource(id = R.drawable.picture_in_picture),
-            contentDescription = ""
-        )
     }
 
 }

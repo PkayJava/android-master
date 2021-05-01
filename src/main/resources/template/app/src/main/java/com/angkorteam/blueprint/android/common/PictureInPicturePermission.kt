@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContract
 
-class P2PFeaturePermission() : ActivityResultContract<String, Boolean>() {
+class PictureInPicturePermission : ActivityResultContract<String, Boolean>() {
 
     private lateinit var context: Context
 
@@ -20,7 +20,7 @@ class P2PFeaturePermission() : ActivityResultContract<String, Boolean>() {
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): Boolean {
-        return P2PFeaturePermission.hasPictureInPicture(context = context)
+        return hasPictureInPicture(context = context)
     }
 
     companion object {

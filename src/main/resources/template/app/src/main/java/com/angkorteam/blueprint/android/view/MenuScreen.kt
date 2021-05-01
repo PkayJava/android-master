@@ -140,6 +140,24 @@ fun MenuScreen(
                             controller.navigate(route = route)
                         }
                 )
+                Divider()
+                ListItem(
+                        icon = {
+                            Icon(
+                                    Icons.Filled.SmartScreen,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Overlay Window") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/overlay/${accessId}/${secretId}"
+                            controller.navigate(route = route)
+                        }
+                )
             }
         }
     }
