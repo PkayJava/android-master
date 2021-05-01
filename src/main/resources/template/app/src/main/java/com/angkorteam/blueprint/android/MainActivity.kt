@@ -72,6 +72,35 @@ class MainActivity : AppCompatActivity() {
                                 model = model
                         )
                     }
+                    composable(
+                            route = "/luhn/{accessId}/{secretId}"
+                    ) { navBackStackEntry ->
+                        val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                        val model: ImageOCRScreenModel = viewModel("ImageOCRScreenModel", factory)
+                        val accessId = navBackStackEntry.arguments?.getString("accessId")!!
+                        val secretId = navBackStackEntry.arguments?.getString("secretId")!!
+                        ImageOCRScreen(
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
+                        )
+                    }
+                    composable(
+                            route = "/camera/{accessId}/{secretId}"
+                    ) { navBackStackEntry ->
+                        val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                        val model: TakePictureScreenModel =
+                                viewModel("TakePictureScreenModel", factory)
+                        val accessId = navBackStackEntry.arguments?.getString("accessId")!!
+                        val secretId = navBackStackEntry.arguments?.getString("secretId")!!
+                        TakePictureScreen(
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
+                        )
+                    }
                 }
             }
         }

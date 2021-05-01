@@ -1,33 +1,10 @@
 package ${pkg}.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -50,12 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import ${pkg}.R
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsPadding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ${pkg}.R
 
 @ExperimentalAnimatedInsets
 @ExperimentalComposeUiApi
@@ -63,8 +40,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @Composable
 fun LoginScreen(
-        controller: NavHostController,
-        model: LoginScreenModel,
+    controller: NavHostController,
+    model: LoginScreenModel,
 ) {
 
     val image = painterResource(id = R.drawable.login_image)
@@ -86,12 +63,12 @@ fun LoginScreen(
     var scaffoldState = rememberScaffoldState()
 
     Scaffold(scaffoldState = scaffoldState,
-            snackbarHost = {
-                SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                )
-            }) {
+        snackbarHost = {
+            SnackbarHost(
+                hostState = scaffoldState.snackbarHostState,
+                modifier = Modifier.navigationBarsWithImePadding()
+            )
+        }) {
 
         if (dataState.value is LoginScreenModel.DataState.Error) {
             LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
@@ -108,105 +85,105 @@ fun LoginScreen(
         }
 
         Surface(
-                modifier = Modifier
-                        .fillMaxSize()
-                        .statusBarsPadding()
-                        .navigationBarsWithImePadding(),
-                color = Color.Transparent,
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsWithImePadding(),
+            color = Color.Transparent,
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Image(
-                        painter = image, contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                                .align(alignment = Alignment.TopCenter)
-                                .fillMaxWidth(if (insets.ime.isVisible) 0.35f else 0.7f)
-                                .aspectRatio(1f)
+                    painter = image, contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .align(alignment = Alignment.TopCenter)
+                        .fillMaxWidth(if (insets.ime.isVisible) 0.35f else 0.7f)
+                        .aspectRatio(1f)
                 )
                 Column(
-                        modifier = Modifier
-                                .align(alignment = Alignment.BottomCenter),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .align(alignment = Alignment.BottomCenter),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                            text = buildAnnotatedString {
-                                withStyle(
-                                        style = SpanStyle(
-                                                fontWeight = FontWeight.Bold,
-                                                letterSpacing = 2.sp,
-                                                fontSize = 26.sp
-                                        )
-                                ) {
-                                    append(text = "Login ")
-                                }
-                                withStyle(
-                                        style = SpanStyle(
-                                                fontWeight = FontWeight.Normal,
-                                                letterSpacing = 2.sp,
-                                                fontSize = 26.sp
-                                        )
-                                ) {
-                                    append(text = "UI")
-                                }
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 2.sp,
+                                    fontSize = 26.sp
+                                )
+                            ) {
+                                append(text = "Login ")
                             }
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Normal,
+                                    letterSpacing = 2.sp,
+                                    fontSize = 26.sp
+                                )
+                            ) {
+                                append(text = "UI")
+                            }
+                        }
                     )
                     Spacer(modifier = Modifier.padding(if (insets.ime.isVisible) 4.dp else 8.dp))
                     OutlinedTextField(
-                            value = loginValue,
-                            onValueChange = { it -> loginValue = it },
-                            label = { Text(text = "Username") },
-                            placeholder = { Text(text = "Username") },
-                            singleLine = true,
-                            modifier = Modifier
-                                    .fillMaxWidth(0.8f),
-                            keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    autoCorrect = false,
-                                    imeAction = ImeAction.None
-                            ),
+                        value = loginValue,
+                        onValueChange = { it -> loginValue = it },
+                        label = { Text(text = "Username") },
+                        placeholder = { Text(text = "Username") },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            autoCorrect = false,
+                            imeAction = ImeAction.None
+                        ),
                     )
                     OutlinedTextField(
-                            value = passwordValue,
-                            onValueChange = { passwordValue = it },
-                            trailingIcon = {
-                                IconButton(onClick = {
-                                    passwordVisibility.value = !passwordVisibility.value
-                                }) {
-                                    Icon(
-                                            imageVector = ImageVector.vectorResource(id = R.drawable.password_eye),
-                                            tint = if (passwordVisibility.value) Color(0xFF7048B6) else Color.Gray,
-                                            contentDescription = "",
-                                    )
-                                }
-                            },
-                            label = { Text("Password") },
-                            placeholder = { Text(text = "Password") },
-                            singleLine = true,
-                            visualTransformation = if (passwordVisibility.value) VisualTransformation.None
-                            else PasswordVisualTransformation(),
-                            modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .focusRequester(focusRequester = focusRequester),
-                            keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    autoCorrect = false,
-                                    imeAction = ImeAction.None
-                            ),
+                        value = passwordValue,
+                        onValueChange = { passwordValue = it },
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                passwordVisibility.value = !passwordVisibility.value
+                            }) {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.password_eye),
+                                    tint = if (passwordVisibility.value) Color(0xFF7048B6) else Color.Gray,
+                                    contentDescription = "",
+                                )
+                            }
+                        },
+                        label = { Text("Password") },
+                        placeholder = { Text(text = "Password") },
+                        singleLine = true,
+                        visualTransformation = if (passwordVisibility.value) VisualTransformation.None
+                        else PasswordVisualTransformation(),
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .focusRequester(focusRequester = focusRequester),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            autoCorrect = false,
+                            imeAction = ImeAction.None
+                        ),
                     )
                     Spacer(modifier = Modifier.padding(if (insets.ime.isVisible) 4.dp else 16.dp))
                     Button(
-                            onClick = {
-                                if (dataState.value is LoginScreenModel.DataState.Loading) {
-                                } else {
-                                    model.login(
-                                            login = loginValue,
-                                            password = passwordValue,
-                                    )
-                                }
-                            },
-                            modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .height(50.dp)
+                        onClick = {
+                            if (dataState.value is LoginScreenModel.DataState.Loading) {
+                            } else {
+                                model.login(
+                                    login = loginValue,
+                                    password = passwordValue,
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .height(50.dp)
                     ) {
                         Text(text = "Login", fontSize = 20.sp)
                     }

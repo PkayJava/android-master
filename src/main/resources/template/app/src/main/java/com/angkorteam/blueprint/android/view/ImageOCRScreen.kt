@@ -36,8 +36,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.common.YuvToRgbConverter
 import ${pkg}.theme.BlueprintMasterTheme
@@ -49,11 +49,11 @@ import java.util.concurrent.Executors
 @ExperimentalMaterialApi
 @ExperimentalGetImage
 @Composable
-fun BarcodeScreen(
+fun ImageOCRScreen(
     accessId: String,
     secretId: String,
     controller: NavHostController,
-    model: BarcodeScreenModel,
+    model: ImageOCRScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -66,10 +66,10 @@ fun BarcodeScreen(
 
     var dataState = model.state.collectAsState()
 
-    var barcodeBitmap by remember {
+    var lunhBitmap by remember {
         mutableStateOf<Bitmap?>(null)
     }
-    var barcodeText by remember {
+    var lunhText by remember {
         mutableStateOf("")
     }
 
@@ -77,23 +77,23 @@ fun BarcodeScreen(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            model.updateState(state = BarcodeScreenModel.DataState.Barcode)
+            model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
         } else {
-            model.updateState(state = BarcodeScreenModel.DataState.Permission)
+            model.updateState(state = ImageOCRScreenModel.DataState.Permission)
         }
     }
 
     if (ContextCompat.checkSelfPermission(LocalContext.current, Manifest.permission.CAMERA) ==
         PackageManager.PERMISSION_GRANTED
     ) {
-        if (dataState.value == BarcodeScreenModel.DataState.Permission) {
-            model.updateState(state = BarcodeScreenModel.DataState.Barcode)
+        if (dataState.value == ImageOCRScreenModel.DataState.Permission) {
+            model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
         }
     } else {
-        model.updateState(state = BarcodeScreenModel.DataState.Permission)
+        model.updateState(state = ImageOCRScreenModel.DataState.Permission)
     }
 
-    if (dataState.value is BarcodeScreenModel.DataState.Barcode) {
+    if (dataState.value is ImageOCRScreenModel.DataState.Lunh) {
         var cameraProvider by remember {
             mutableStateOf<ProcessCameraProvider?>(null)
         }
@@ -109,11 +109,11 @@ fun BarcodeScreen(
             mutableStateOf(previewBuilder.build())
         }
 
-        var barcodeStatus by remember {
-            mutableStateOf("Point your camera at a barcode/qrcode")
+        var lunhStatus by remember {
+            mutableStateOf("Point your camera at a text")
         }
 
-        var barcodeAnalyzer by remember {
+        var lunhAnalyzer by remember {
             mutableStateOf(ImageAnalysis.Builder().build().apply {
                 this.setAnalyzer(
                     Executors.newSingleThreadExecutor(),
@@ -124,40 +124,38 @@ fun BarcodeScreen(
                                 mediaImage,
                                 imageProxy.imageInfo.rotationDegrees
                             )
-                            val processor = BarcodeScanning.getClient()
+                            val processor = TextRecognition.getClient()
                             processor.process(image)
-                                .addOnSuccessListener { barcodes ->
-                                    if (barcodes.size == 1) {
-                                        barcodes[0]?.rawValue?.let { barcode ->
-                                            var code = barcode.substring(0, barcode.length - 1)
-                                            var crc = barcode.substring(barcode.length - 1)
-                                            var c = lookupChecksum(code)
-                                            if (c == crc) {
-                                                var bitmapBuffer = Bitmap.createBitmap(
-                                                    image.width,
-                                                    image.height,
-                                                    Bitmap.Config.ARGB_8888
-                                                )
-                                                YuvToRgbConverter(context).yuvToRgb(
-                                                    mediaImage,
-                                                    bitmapBuffer
-                                                )
-
-                                                barcodeBitmap = bitmapBuffer
-
-                                                barcodeText = barcode
-
-                                                cameraProvider!!.unbindAll()
-                                                model.barcodeReview()
+                                .addOnSuccessListener { text ->
+                                    var lunh = ""
+                                    master@ for (block in text.textBlocks) {
+                                        for (line in block.lines) {
+                                            for (element in line.elements) {
+                                                var text: String = element.text.trim()
+                                                if (isLuhnNumber(text)) {
+                                                    lunh = text
+                                                    break@master
+                                                }
                                             }
                                         }
+                                    }
+                                    if (lunh == "") {
+                                        lunhText = ""
+                                        lunhStatus = "Point your camera at a text"
                                     } else {
-                                        barcodeBitmap = null
-                                        barcodeStatus = if (barcodes.size > 1) {
-                                            "Invalid due to ${barcodes.size} are found"
-                                        } else {
-                                            "Point your camera at a barcode/qrcode"
-                                        }
+                                        lunhText = "$lunh"
+                                        var bitmapBuffer = Bitmap.createBitmap(
+                                            image.width, image.height, Bitmap.Config.ARGB_8888
+                                        )
+                                        YuvToRgbConverter(context).yuvToRgb(
+                                            mediaImage,
+                                            bitmapBuffer
+                                        )
+
+                                        lunhBitmap = bitmapBuffer
+
+                                        cameraProvider!!.unbindAll()
+                                        model.lunhReview()
                                     }
                                     imageProxy.close()
                                 }
@@ -209,7 +207,7 @@ fun BarcodeScreen(
 
                                         // Bind use cases to camera
                                         cameraProvider!!.bindToLifecycle(
-                                            owner, cameraSelector, preview, barcodeAnalyzer
+                                            owner, cameraSelector, preview, lunhAnalyzer
                                         )
                                     } catch (exc: Exception) {
 
@@ -227,7 +225,7 @@ fun BarcodeScreen(
                             .padding(10.dp)
                     ) {
                         Text(
-                            text = barcodeStatus,
+                            text = lunhStatus,
                             color = Color.White,
                             style = MaterialTheme.typography.h6,
                             textAlign = TextAlign.Center,
@@ -238,7 +236,7 @@ fun BarcodeScreen(
                 }
             }
         }
-    } else if (dataState.value is BarcodeScreenModel.DataState.BarcodeReview) {
+    } else if (dataState.value is ImageOCRScreenModel.DataState.LunhReview) {
         BlueprintMasterTheme {
             Scaffold(
                 topBar = {
@@ -258,8 +256,8 @@ fun BarcodeScreen(
                         .fillMaxSize()
                 ) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
-                        var image_width = barcodeBitmap!!.width
-                        var image_height = barcodeBitmap!!.height
+                        var image_width = lunhBitmap!!.width
+                        var image_height = lunhBitmap!!.height
                         var ratio = size.height / image_width
                         var new_height = size.width.toInt()
                         var new_width = size.height.toInt()
@@ -269,7 +267,7 @@ fun BarcodeScreen(
                             pivot = Offset(0f, 0f)
                         ) {
                             drawImage(
-                                image = barcodeBitmap!!.asImageBitmap(),
+                                image = lunhBitmap!!.asImageBitmap(),
                                 srcOffset = IntOffset(0, 0),
                                 dstOffset = IntOffset(0, -new_height),
                                 dstSize = IntSize(new_width, new_height),
@@ -284,7 +282,7 @@ fun BarcodeScreen(
                             .padding(10.dp)
                     ) {
                         Text(
-                            text = "Code : $barcodeText",
+                            text = "Code : $lunhText",
                             color = Color.White,
                             style = MaterialTheme.typography.h6,
                             textAlign = TextAlign.Center,
@@ -314,7 +312,7 @@ fun BarcodeScreen(
                 }
             }
         }
-    } else if (dataState.value is BarcodeScreenModel.DataState.Permission) {
+    } else if (dataState.value is ImageOCRScreenModel.DataState.Permission) {
         BlueprintMasterTheme {
             Scaffold(
                 topBar = {
@@ -337,7 +335,7 @@ fun BarcodeScreen(
                                 context,
                                 Manifest.permission.CAMERA
                             ) -> {
-                                model.updateState(state = BarcodeScreenModel.DataState.Barcode)
+                                model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
                             }
                             else -> {
                                 // Asking for permission
@@ -354,24 +352,23 @@ fun BarcodeScreen(
 
 }
 
-fun lookupChecksum(s: CharSequence): String? {
-    val length = s.length
-    var sum = 0
-    var i = length - 1
-    while (i >= 0) {
-        val digit = s[i] - '0'
-        require(!(digit < 0 || digit > 9)) { "barcode" }
-        sum += digit
-        i -= 2
+fun isLuhnNumber(value: String): Boolean {
+    try {
+        var sum = 0
+        var alternate = false
+        for (i in value.length - 1 downTo 0) {
+            var n = value.substring(i, i + 1).toInt()
+            if (alternate) {
+                n *= 2
+                if (n > 9) {
+                    n = n % 10 + 1
+                }
+            }
+            sum += n
+            alternate = !alternate
+        }
+        return sum % 10 == 0
+    } catch (e: NumberFormatException) {
+        return false
     }
-
-    sum *= 3
-    i = length - 2
-    while (i >= 0) {
-        val digit = s[i] - '0'
-        require(!(digit < 0 || digit > 9)) { "barcode" }
-        sum += digit
-        i -= 2
-    }
-    return ((1000 - sum) % 10).toString()
 }
