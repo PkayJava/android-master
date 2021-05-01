@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Login
-import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -28,10 +25,10 @@ import ${pkg}.widget.InsetAwareTopAppBar
 @ExperimentalGetImage
 @Composable
 fun MenuScreen(
-    accessId: String,
-    secretId: String,
-    controller: NavHostController,
-    model: MenuScreenModel,
+        accessId: String,
+        secretId: String,
+        controller: NavHostController,
+        model: MenuScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -42,88 +39,106 @@ fun MenuScreen(
 
     BlueprintMasterTheme {
         Scaffold(
-            topBar = {
-                InsetAwareTopAppBar(title = { Text(text = title) })
-            },
-            scaffoldState = scaffoldState,
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = scaffoldState.snackbarHostState,
-                    modifier = Modifier.navigationBarsWithImePadding()
-                )
-            },
+                topBar = {
+                    InsetAwareTopAppBar(title = { Text(text = title) })
+                },
+                scaffoldState = scaffoldState,
+                snackbarHost = {
+                    SnackbarHost(
+                            hostState = scaffoldState.snackbarHostState,
+                            modifier = Modifier.navigationBarsWithImePadding()
+                    )
+                },
         ) {
             Column {
                 ListItem(
-                    icon = {
-                        Icon(
-                            Icons.Filled.Login,
-                            contentDescription = null,
-                            modifier = Modifier.size(56.dp)
-                        )
-                    },
-                    overlineText = { Text(text = "v1.0") },
-                    text = { Text("Login") },
-                    secondaryText = { Text(text = "Prototype") },
-                    trailing = { Text(text = "By PkayJava") },
-                    modifier = Modifier.clickable {
-                        val route = "/login"
-                        controller.navigate(route = route)
-                    }
+                        icon = {
+                            Icon(
+                                    Icons.Filled.Login,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Login") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/login"
+                            controller.navigate(route = route)
+                        }
                 )
                 Divider()
                 ListItem(
-                    icon = {
-                        Icon(
-                            Icons.Filled.QrCodeScanner,
-                            contentDescription = null,
-                            modifier = Modifier.size(56.dp)
-                        )
-                    },
-                    overlineText = { Text(text = "v1.0") },
-                    text = { Text("Barcode / QRCode") },
-                    secondaryText = { Text(text = "Prototype") },
-                    trailing = { Text(text = "By PkayJava") },
-                    modifier = Modifier.clickable {
-                        val route = "/barcode/${accessId}/${secretId}"
-                        controller.navigate(route = route)
-                    }
+                        icon = {
+                            Icon(
+                                    Icons.Filled.QrCodeScanner,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Barcode / QRCode") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/barcode/${accessId}/${secretId}"
+                            controller.navigate(route = route)
+                        }
                 )
                 Divider()
                 ListItem(
-                    icon = {
-                        Icon(
-                            Icons.Filled.Info,
-                            contentDescription = null,
-                            modifier = Modifier.size(56.dp)
-                        )
-                    },
-                    overlineText = { Text(text = "v1.0") },
-                    text = { Text("Text / OCR / Luhn") },
-                    secondaryText = { Text(text = "Prototype") },
-                    trailing = { Text(text = "By PkayJava") },
-                    modifier = Modifier.clickable {
-                        val route = "/luhn/${accessId}/${secretId}"
-                        controller.navigate(route = route)
-                    }
+                        icon = {
+                            Icon(
+                                    Icons.Filled.ManageSearch,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Text / OCR / Luhn") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/luhn/${accessId}/${secretId}"
+                            controller.navigate(route = route)
+                        }
                 )
                 Divider()
                 ListItem(
-                    icon = {
-                        Icon(
-                            Icons.Filled.Camera,
-                            contentDescription = null,
-                            modifier = Modifier.size(56.dp)
-                        )
-                    },
-                    overlineText = { Text(text = "v1.0") },
-                    text = { Text("Take Picture") },
-                    secondaryText = { Text(text = "Prototype") },
-                    trailing = { Text(text = "By PkayJava") },
-                    modifier = Modifier.clickable {
-                        val route = "/camera/${accessId}/${secretId}"
-                        controller.navigate(route = route)
-                    }
+                        icon = {
+                            Icon(
+                                    Icons.Filled.CameraAlt,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Take Picture") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/camera/${accessId}/${secretId}"
+                            controller.navigate(route = route)
+                        }
+                )
+                Divider()
+                ListItem(
+                        icon = {
+                            Icon(
+                                    Icons.Filled.FitScreen,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Picture In Picture") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/p2p/${accessId}/${secretId}"
+                            controller.navigate(route = route)
+                        }
                 )
             }
         }
