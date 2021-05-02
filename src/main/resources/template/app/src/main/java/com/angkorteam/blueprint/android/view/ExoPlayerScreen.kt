@@ -1,15 +1,13 @@
 package ${pkg}.view
 
 import android.app.Activity
+import android.content.Intent
 import android.view.TextureView
 import androidx.camera.core.ExperimentalGetImage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -25,6 +23,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ${pkg}.effect.ServiceEffect
+import ${pkg}.service.ComposableService
 import ${pkg}.theme.BlueprintMasterTheme
 import ${pkg}.widget.InsetAwareTopAppBar
 
@@ -48,21 +48,39 @@ fun ExoPlayerScreen(
 
     var context = LocalContext.current as Activity
 
-    var player = remember {
-        SimpleExoPlayer.Builder(context).build()
+    var player_state = remember {
+        mutableStateOf<SimpleExoPlayer?>(null)
     }
 
-    DisposableEffect(key1 = context) {
-        var mediaItem = MediaItem.fromUri("http://192.168.1.20/mp4/1.mp4")
-        val httpDataSourceFactory = DefaultHttpDataSource.Factory()
-        var dataSourceFactory = ProgressiveMediaSource.Factory(httpDataSourceFactory)
-        var mediaSource = dataSourceFactory.createMediaSource(mediaItem)
-        player.setMediaSource(mediaSource)
-        player.playWhenReady = true
-        player.prepare()
-        onDispose {
-            player.release()
+    ServiceEffect(
+            serviceName = "ExoPlayer",
+            serviceClass = ComposableService::class.java
+    ) { intent, registry ->
+        if (registry["player"] == null) {
+            var player = SimpleExoPlayer.Builder(context).build()
+            registry["player"] = player
         }
+        var player = registry["player"] as SimpleExoPlayer
+        var command = intent.getStringExtra("command")
+        if ("PLAY" == command) {
+            val uri = intent.getStringExtra("uri")
+            val mediaItem = MediaItem.fromUri(uri!!)
+            val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+            val dataSourceFactory = ProgressiveMediaSource.Factory(httpDataSourceFactory)
+            val mediaSource = dataSourceFactory.createMediaSource(mediaItem)
+            player.setMediaSource(mediaSource)
+            player.playWhenReady = true
+            player.prepare()
+        } else if ("BIND" == command) {
+            player_state.value = player
+        }
+    }
+
+    SideEffect {
+        var intent = Intent(context, ComposableService::class.java)
+        intent.putExtra(ComposableService.NAME, "ExoPlayer")
+        intent.putExtra("command", "BIND")
+        context.startService(intent)
     }
 
     BlueprintMasterTheme {
@@ -83,18 +101,20 @@ fun ExoPlayerScreen(
                             .navigationBarsPadding(bottom = true)
                             .fillMaxSize()
             ) {
-                AndroidView(
-                        modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(16f / 9f)
-                                .align(alignment = Alignment.TopCenter),
-                        factory = { context ->
-                            TextureView(context)
-                        },
-                        update = { view ->
-                            player.setVideoTextureView(view)
-                        }
-                )
+                if (player_state.value != null) {
+                    AndroidView(
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .aspectRatio(16f / 9f)
+                                    .align(alignment = Alignment.TopCenter),
+                            factory = { context ->
+                                TextureView(context)
+                            },
+                            update = { view ->
+                                player_state.value!!.setVideoTextureView(view)
+                            }
+                    )
+                }
                 Box(
                         modifier = Modifier
                                 .fillMaxWidth()
@@ -107,7 +127,11 @@ fun ExoPlayerScreen(
                             horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Button(onClick = {
-                            player.play()
+                            var intent = Intent(context, ComposableService::class.java)
+                            intent.putExtra(ComposableService.NAME, "ExoPlayer")
+                            intent.putExtra("command", "PLAY")
+                            intent.putExtra("uri", "http://192.168.1.20/mp4/1.mp4")
+                            context.startService(intent)
                         }) {
                             Text(text = "Play")
                         }
