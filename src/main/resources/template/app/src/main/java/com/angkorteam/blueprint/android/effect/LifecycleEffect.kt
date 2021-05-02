@@ -1,4 +1,4 @@
-package ${pkg}.common
+package ${pkg}.effect
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

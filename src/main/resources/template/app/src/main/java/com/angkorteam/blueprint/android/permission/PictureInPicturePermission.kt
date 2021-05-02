@@ -1,4 +1,4 @@
-package ${pkg}.common
+package ${pkg}.permission
 
 import android.app.AppOpsManager
 import android.content.Context

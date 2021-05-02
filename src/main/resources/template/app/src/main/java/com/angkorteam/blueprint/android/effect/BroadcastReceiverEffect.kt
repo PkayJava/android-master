@@ -1,4 +1,4 @@
-package ${pkg}.common
+package ${pkg}.effect
 
 import android.content.BroadcastReceiver
 import android.content.Context
