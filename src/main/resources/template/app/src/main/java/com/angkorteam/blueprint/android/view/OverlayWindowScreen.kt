@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
-import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
+import androidx.compose.ui.platform.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -51,10 +48,10 @@ import java.util.*
 @ExperimentalGetImage
 @Composable
 fun OverlayWindowScreen(
-    accessId: String,
-    secretId: String,
-    controller: NavHostController,
-    model: OverlayWindowScreenModel,
+        accessId: String,
+        secretId: String,
+        controller: NavHostController,
+        model: OverlayWindowScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -66,7 +63,7 @@ fun OverlayWindowScreen(
     var context = LocalContext.current as Activity
 
     val launcher = rememberLauncherForActivityResult(
-        OverlayWindowPermission()
+            OverlayWindowPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
             model.updateState(state = OverlayWindowScreenModel.DataState.HIDE)
@@ -97,6 +94,9 @@ fun OverlayWindowScreen(
         }
     }
 
+    val width = with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+    val height = with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
+
     var overlayView: View? = remember {
         null
     }
@@ -111,36 +111,23 @@ fun OverlayWindowScreen(
             ViewTreeLifecycleOwner.set(overlayView!!, lifecycleOwner)
             ViewTreeSavedStateRegistryOwner.set(overlayView!!, lifecycleOwner)
 
-            var width = 0
-            var height = 0
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                var metric = windowManager!!.currentWindowMetrics
-                width = metric.bounds.width()
-                height = metric.bounds.height()
-            } else {
-                val metrics = DisplayMetrics()
-                windowManager!!.defaultDisplay.getMetrics(metrics)
-                width = metrics.widthPixels
-                height = metrics.heightPixels
-            }
-
-            var radio = 16f / 9f;
-            var w = width / 2f;
-            var h = width / radio;
+            var radio = 16f / 9f
+            var w = width / 5f *3f
+            var h = width / radio
 
             var composeView = overlayView!!.findViewById<ComposeView>(R.id.compose_view)
             composeView.setContent {
                 Image(
-                    painter = painterResource(id = R.drawable.picture_in_picture),
-                    contentDescription = ""
+                        painter = painterResource(id = R.drawable.picture_in_picture),
+                        contentDescription = ""
                 )
             }
 
             val popupLayoutParams = WindowManager.LayoutParams(
-                w.toInt(), h.toInt(),
-                popupLayoutParamType(),
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
-                PixelFormat.TRANSLUCENT
+                    w.toInt(), h.toInt(),
+                    popupLayoutParamType(),
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
+                    PixelFormat.TRANSLUCENT
             )
             popupLayoutParams.gravity = Gravity.LEFT or Gravity.TOP
             popupLayoutParams.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
@@ -161,50 +148,50 @@ fun OverlayWindowScreen(
     }
 
     if (dataState.value is OverlayWindowScreenModel.DataState.SHOW ||
-        dataState.value is OverlayWindowScreenModel.DataState.HIDE
+            dataState.value is OverlayWindowScreenModel.DataState.HIDE
     ) {
 
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        InsetAwareTopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                                modifier = Modifier.navigationBarsWithImePadding()
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .navigationBarsPadding(bottom = true)
+                                .fillMaxSize()
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.TopCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.TopCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.picture_in_picture),
-                            contentDescription = ""
+                                painter = painterResource(id = R.drawable.picture_in_picture),
+                                contentDescription = ""
                         )
                     }
 
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             if (dataState.value is OverlayWindowScreenModel.DataState.HIDE) {
                                 Button(onClick = {
@@ -238,45 +225,45 @@ fun OverlayWindowScreen(
 
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        InsetAwareTopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                                modifier = Modifier.navigationBarsWithImePadding()
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .navigationBarsPadding(bottom = true)
+                                .fillMaxSize()
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.TopCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.TopCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.picture_in_picture),
-                            contentDescription = ""
+                                painter = painterResource(id = R.drawable.picture_in_picture),
+                                contentDescription = ""
                         )
                     }
 
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(onClick = {
                                 launcher.launch("")
