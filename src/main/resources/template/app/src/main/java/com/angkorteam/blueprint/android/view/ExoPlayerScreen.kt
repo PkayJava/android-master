@@ -34,10 +34,10 @@ import ${pkg}.widget.InsetAwareTopAppBar
 @ExperimentalGetImage
 @Composable
 fun ExoPlayerScreen(
-    accessId: String,
-    secretId: String,
-    controller: NavHostController,
-    model: ExoPlayerScreenModel,
+        accessId: String,
+        secretId: String,
+        controller: NavHostController,
+        model: ExoPlayerScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -67,44 +67,44 @@ fun ExoPlayerScreen(
 
     BlueprintMasterTheme {
         Scaffold(
-            topBar = {
-                InsetAwareTopAppBar(title = { Text(text = title) })
-            },
-            scaffoldState = scaffoldState,
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = scaffoldState.snackbarHostState,
-                    modifier = Modifier.navigationBarsWithImePadding()
-                )
-            },
+                topBar = {
+                    InsetAwareTopAppBar(title = { Text(text = title) })
+                },
+                scaffoldState = scaffoldState,
+                snackbarHost = {
+                    SnackbarHost(
+                            hostState = scaffoldState.snackbarHostState,
+                            modifier = Modifier.navigationBarsWithImePadding()
+                    )
+                },
         ) {
             Box(
-                modifier = Modifier
-                    .navigationBarsPadding(bottom = true)
-                    .fillMaxSize()
+                    modifier = Modifier
+                            .navigationBarsPadding(bottom = true)
+                            .fillMaxSize()
             ) {
                 AndroidView(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
-                        .align(alignment = Alignment.TopCenter),
-                    factory = { context ->
-                        TextureView(context)
-                    },
-                    update = { view ->
-                        player.setVideoTextureView(view)
-                    }
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(16f / 9f)
+                                .align(alignment = Alignment.TopCenter),
+                        factory = { context ->
+                            TextureView(context)
+                        },
+                        update = { view ->
+                            player.setVideoTextureView(view)
+                        }
                 )
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(alignment = Alignment.BottomCenter)
-                        .background(Color(0x88000000))
-                        .padding(10.dp)
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .align(alignment = Alignment.BottomCenter)
+                                .background(Color(0x88000000))
+                                .padding(10.dp)
                 ) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Button(onClick = {
                             player.play()

@@ -35,9 +35,9 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.R
 import ${pkg}.effect.LifecycleEffect
-import ${pkg}.service.ComposableService
-import ${pkg}.permission.OverlayWindowPermission
 import ${pkg}.effect.ServiceEffect
+import ${pkg}.permission.OverlayWindowPermission
+import ${pkg}.service.ComposableService
 import ${pkg}.theme.BlueprintMasterTheme
 import ${pkg}.widget.InsetAwareTopAppBar
 import java.util.*
@@ -103,8 +103,11 @@ fun OverlayWindowScreen(
 
     var lifecycleOwner = LocalSavedStateRegistryOwner.current
 
-    ServiceEffect(serviceName = "Overlay", serviceClass = ComposableService::class.java) {
-        var action = it.extras?.getString("ACTION")
+    ServiceEffect(
+            serviceName = "Overlay",
+            serviceClass = ComposableService::class.java
+    ) { intent, registry ->
+        var action = intent.extras?.getString("ACTION")
         if ("SHOW" == action) {
             var windowManager = ContextCompat.getSystemService(context, WindowManager::class.java)
             overlayView = LayoutInflater.from(context).inflate(R.layout.overlay_window, null, false)
@@ -112,7 +115,7 @@ fun OverlayWindowScreen(
             ViewTreeSavedStateRegistryOwner.set(overlayView!!, lifecycleOwner)
 
             var radio = 16f / 9f
-            var w = width / 5f *3f
+            var w = width / 5f * 3f
             var h = width / radio
 
             var composeView = overlayView!!.findViewById<ComposeView>(R.id.compose_view)

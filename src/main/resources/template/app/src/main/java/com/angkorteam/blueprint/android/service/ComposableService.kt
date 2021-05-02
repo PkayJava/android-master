@@ -8,9 +8,12 @@ class ComposableService : Service() {
 
     private lateinit var binder: ServiceBinder
 
+    lateinit var registry: MutableMap<String, Any>
+
     override fun onCreate() {
         super.onCreate()
         this.binder = ServiceBinder()
+        this.registry = mutableMapOf()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -21,7 +24,7 @@ class ComposableService : Service() {
         val serviceName = intent.getStringExtra(NAME)
         val onService = this.binder.registry[serviceName]
         if (onService != null) {
-            onService(intent)
+            onService(intent, this.registry)
         }
         return START_NOT_STICKY
     }

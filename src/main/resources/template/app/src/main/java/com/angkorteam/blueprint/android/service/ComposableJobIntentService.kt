@@ -9,14 +9,17 @@ import ${pkg}.MainApplication
 
 class ComposableJobIntentService : JobIntentService() {
 
+    private lateinit var hander: Handler
+
     private lateinit var binder: ServiceBinder
 
-    private lateinit var hander: Handler
+    lateinit var registry: MutableMap<String, Any>
 
     override fun onCreate() {
         super.onCreate()
         this.binder = ServiceBinder()
         this.hander = Handler(Looper.getMainLooper())
+        this.registry = mutableMapOf()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -27,7 +30,7 @@ class ComposableJobIntentService : JobIntentService() {
         val serviceName = intent.getStringExtra(NAME)
         val onService = this.binder.registry[serviceName]
         if (onService != null) {
-            onService(intent)
+            onService(intent, this.registry)
         }
     }
 

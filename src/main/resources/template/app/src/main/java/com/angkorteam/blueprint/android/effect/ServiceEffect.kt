@@ -14,9 +14,9 @@ import ${pkg}.service.ServiceBinder
 
 @Composable
 fun ServiceEffect(
-    serviceName: String,
-    serviceClass: Class<*>,
-    onService: (intent: Intent) -> Unit
+        serviceName: String,
+        serviceClass: Class<*>,
+        onService: (intent: Intent, registry: MutableMap<String, Any>) -> Unit
 ) {
     // Grab the current context in this part of the UI tree
     val context = LocalContext.current

@@ -5,6 +5,7 @@ import android.os.Binder
 
 class ServiceBinder : Binder() {
 
-    val registry = mutableMapOf<String, (intent: Intent) -> Unit>()
+    val registry =
+        mutableMapOf<String, (intent: Intent, registry: MutableMap<String, Any>) -> Unit>()
 
 }
