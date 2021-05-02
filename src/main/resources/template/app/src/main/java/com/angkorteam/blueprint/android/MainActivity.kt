@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     val p2pModel: PictureInPictureScreenModel by viewModels()
 
-    val overlayModel: OverlayWindowScreenModel by viewModels()
-
     @ExperimentalAnimatedInsets
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,95 +40,113 @@ class MainActivity : AppCompatActivity() {
             ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
                 val controller = rememberNavController()
                 NavHost(
-                    navController = controller,
-                    startDestination = "/login"
+                        navController = controller,
+                        startDestination = "/login"
                 ) {
                     composable(
-                        route = "/login"
+                            route = "/login"
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: LoginScreenModel = viewModel("LoginScreenModel", factory)
                         LoginScreen(controller = controller, model = model)
                     }
                     composable(
-                        route = "/menu/{accessId}/{secretId}"
+                            route = "/menu/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: MenuScreenModel = viewModel("MenuScreenModel", factory)
                         val accessId = navBackStackEntry.arguments?.getString("accessId")!!
                         val secretId = navBackStackEntry.arguments?.getString("secretId")!!
                         MenuScreen(
-                            accessId = accessId,
-                            secretId = secretId,
-                            controller = controller,
-                            model = model
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
                         )
                     }
                     composable(
-                        route = "/barcode/{accessId}/{secretId}"
+                            route = "/barcode/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: BarcodeScreenModel = viewModel("BarcodeScreenModel", factory)
                         val accessId = navBackStackEntry.arguments?.getString("accessId")!!
                         val secretId = navBackStackEntry.arguments?.getString("secretId")!!
                         BarcodeScreen(
-                            accessId = accessId,
-                            secretId = secretId,
-                            controller = controller,
-                            model = model
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
                         )
                     }
                     composable(
-                        route = "/luhn/{accessId}/{secretId}"
+                            route = "/luhn/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: ImageOCRScreenModel = viewModel("ImageOCRScreenModel", factory)
                         val accessId = navBackStackEntry.arguments?.getString("accessId")!!
                         val secretId = navBackStackEntry.arguments?.getString("secretId")!!
                         ImageOCRScreen(
-                            accessId = accessId,
-                            secretId = secretId,
-                            controller = controller,
-                            model = model
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
                         )
                     }
                     composable(
-                        route = "/camera/{accessId}/{secretId}"
+                            route = "/camera/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: TakePictureScreenModel =
-                            viewModel("TakePictureScreenModel", factory)
+                                viewModel("TakePictureScreenModel", factory)
                         val accessId = navBackStackEntry.arguments?.getString("accessId")!!
                         val secretId = navBackStackEntry.arguments?.getString("secretId")!!
                         TakePictureScreen(
-                            accessId = accessId,
-                            secretId = secretId,
-                            controller = controller,
-                            model = model
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
                         )
                     }
                     composable(
-                        route = "/p2p/{accessId}/{secretId}"
+                            route = "/p2p/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
                         val accessId = navBackStackEntry.arguments?.getString("accessId")!!
                         val secretId = navBackStackEntry.arguments?.getString("secretId")!!
                         PictureInPictureScreen(
-                            accessId = accessId,
-                            secretId = secretId,
-                            controller = controller,
-                            model = p2pModel
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = p2pModel
                         )
                     }
                     composable(
-                        route = "/overlay/{accessId}/{secretId}"
+                            route = "/overlay/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
+                        val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                        val model: OverlayWindowScreenModel =
+                                viewModel("OverlayWindowScreenModel", factory)
                         val accessId = navBackStackEntry.arguments?.getString("accessId")!!
                         val secretId = navBackStackEntry.arguments?.getString("secretId")!!
                         OverlayWindowScreen(
-                            accessId = accessId,
-                            secretId = secretId,
-                            controller = controller,
-                            model = overlayModel
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
+                        )
+                    }
+                    composable(
+                            route = "/exo/{accessId}/{secretId}"
+                    ) { navBackStackEntry ->
+                        val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                        val model: ExoPlayerScreenModel =
+                                viewModel("ExoPlayerScreenModel", factory)
+                        val accessId = navBackStackEntry.arguments?.getString("accessId")!!
+                        val secretId = navBackStackEntry.arguments?.getString("secretId")!!
+                        ExoPlayerScreen(
+                                accessId = accessId,
+                                secretId = secretId,
+                                controller = controller,
+                                model = model
                         )
                     }
                 }
@@ -139,8 +155,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration?
+            isInPictureInPictureMode: Boolean,
+            newConfig: Configuration?
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         if (isInPictureInPictureMode) {

@@ -4,6 +4,8 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -50,7 +52,11 @@ fun MenuScreen(
                     )
                 },
         ) {
-            Column {
+            Column(
+                    modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .navigationBarsWithImePadding()
+            ) {
                 ListItem(
                         icon = {
                             Icon(
@@ -155,6 +161,24 @@ fun MenuScreen(
                         trailing = { Text(text = "By PkayJava") },
                         modifier = Modifier.clickable {
                             val route = "/overlay/${accessId}/${secretId}"
+                            controller.navigate(route = route)
+                        }
+                )
+                Divider()
+                ListItem(
+                        icon = {
+                            Icon(
+                                    Icons.Filled.SmartScreen,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(56.dp)
+                            )
+                        },
+                        overlineText = { Text(text = "v1.0") },
+                        text = { Text("Video Player") },
+                        secondaryText = { Text(text = "Prototype") },
+                        trailing = { Text(text = "By PkayJava") },
+                        modifier = Modifier.clickable {
+                            val route = "/exo/${accessId}/${secretId}"
                             controller.navigate(route = route)
                         }
                 )
