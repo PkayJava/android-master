@@ -3,9 +3,9 @@ package ${pkg}.service
 import android.content.Intent
 import android.os.Binder
 
-class ServiceBinder : Binder() {
+class ServiceBinder<T : ServiceRegistry>(val service: T) : Binder() {
 
-    val registry =
-        mutableMapOf<String, (intent: Intent, registry: MutableMap<String, Any>) -> Unit>()
+    val handlers =
+            mutableMapOf<String, (intent: Intent, registry: MutableMap<String, Any>) -> Unit>()
 
 }

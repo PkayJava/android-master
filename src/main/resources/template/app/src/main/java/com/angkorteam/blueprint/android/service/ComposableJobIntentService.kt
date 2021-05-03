@@ -7,17 +7,17 @@ import android.os.Looper
 import androidx.core.app.JobIntentService
 import ${pkg}.MainApplication
 
-class ComposableJobIntentService : JobIntentService() {
+class ComposableJobIntentService : JobIntentService(), ServiceRegistry {
 
     private lateinit var hander: Handler
 
-    private lateinit var binder: ServiceBinder
+    private lateinit var binder: ServiceBinder<ComposableJobIntentService>
 
-    lateinit var registry: MutableMap<String, Any>
+    override lateinit var registry: MutableMap<String, Any>
 
     override fun onCreate() {
         super.onCreate()
-        this.binder = ServiceBinder()
+        this.binder = ServiceBinder(this)
         this.hander = Handler(Looper.getMainLooper())
         this.registry = mutableMapOf()
     }
@@ -28,7 +28,7 @@ class ComposableJobIntentService : JobIntentService() {
 
     override fun onHandleWork(intent: Intent) {
         val serviceName = intent.getStringExtra(NAME)
-        val onService = this.binder.registry[serviceName]
+        val onService = this.binder.handlers[serviceName]
         if (onService != null) {
             onService(intent, this.registry)
         }

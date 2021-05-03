@@ -48,18 +48,23 @@ fun ExoPlayerScreen(
 
     var context = LocalContext.current as Activity
 
-    var player_state = remember {
+    var player_state by remember {
         mutableStateOf<SimpleExoPlayer?>(null)
     }
 
     ServiceEffect(
             serviceName = "ExoPlayer",
-            serviceClass = ComposableService::class.java
+            serviceClass = ComposableService::class.java,
+            onConnected = { registry ->
+                if (registry["player"] == null) {
+                    var player = SimpleExoPlayer.Builder(context).build()
+                    registry["player"] = player
+                }
+                var player = registry["player"] as SimpleExoPlayer
+                player_state = player
+            },
+            onDisconnected = {}
     ) { intent, registry ->
-        if (registry["player"] == null) {
-            var player = SimpleExoPlayer.Builder(context).build()
-            registry["player"] = player
-        }
         var player = registry["player"] as SimpleExoPlayer
         var command = intent.getStringExtra("command")
         if ("PLAY" == command) {
@@ -71,16 +76,7 @@ fun ExoPlayerScreen(
             player.setMediaSource(mediaSource)
             player.playWhenReady = true
             player.prepare()
-        } else if ("BIND" == command) {
-            player_state.value = player
         }
-    }
-
-    SideEffect {
-        var intent = Intent(context, ComposableService::class.java)
-        intent.putExtra(ComposableService.NAME, "ExoPlayer")
-        intent.putExtra("command", "BIND")
-        context.startService(intent)
     }
 
     BlueprintMasterTheme {
@@ -101,7 +97,7 @@ fun ExoPlayerScreen(
                             .navigationBarsPadding(bottom = true)
                             .fillMaxSize()
             ) {
-                if (player_state.value != null) {
+                if (player_state != null) {
                     AndroidView(
                             modifier = Modifier
                                     .fillMaxWidth()
@@ -111,7 +107,7 @@ fun ExoPlayerScreen(
                                 TextureView(context)
                             },
                             update = { view ->
-                                player_state.value!!.setVideoTextureView(view)
+                                player_state!!.setVideoTextureView(view)
                             }
                     )
                 }

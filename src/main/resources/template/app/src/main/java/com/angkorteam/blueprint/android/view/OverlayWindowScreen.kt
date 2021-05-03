@@ -17,18 +17,21 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.*
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.navigation.NavHostController
+import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.navigationBarsWithImePadding
@@ -97,20 +100,23 @@ fun OverlayWindowScreen(
     val width = with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
     val height = with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
 
-    var overlayView: View? = remember {
-        null
-    }
-
-    var lifecycleOwner = LocalSavedStateRegistryOwner.current
+    var lifecycleOwner = LocalContext.current as SavedStateRegistryOwner
 
     ServiceEffect(
             serviceName = "Overlay",
-            serviceClass = ComposableService::class.java
+            serviceClass = ComposableService::class.java,
+            onConnected = {
+                if (it["POPUP"] == "SHOW") {
+                    model.updateState(OverlayWindowScreenModel.DataState.SHOW)
+                }
+            },
+            onDisconnected = {}
     ) { intent, registry ->
         var action = intent.extras?.getString("ACTION")
         if ("SHOW" == action) {
             var windowManager = ContextCompat.getSystemService(context, WindowManager::class.java)
-            overlayView = LayoutInflater.from(context).inflate(R.layout.overlay_window, null, false)
+            var overlayView =
+                    LayoutInflater.from(context).inflate(R.layout.overlay_window, null, false)
             ViewTreeLifecycleOwner.set(overlayView!!, lifecycleOwner)
             ViewTreeSavedStateRegistryOwner.set(overlayView!!, lifecycleOwner)
 
@@ -143,10 +149,15 @@ fun OverlayWindowScreen(
 
             Objects.requireNonNull(windowManager)?.addView(overlayView, popupLayoutParams)
             model.updateState(OverlayWindowScreenModel.DataState.SHOW)
+            registry["POPUP"] = "SHOW"
+            registry["VIEW"] = overlayView
         } else if ("HIDE" == action) {
+            var overlayView = registry["VIEW"] as View
             var windowManager = ContextCompat.getSystemService(context, WindowManager::class.java)
             Objects.requireNonNull(windowManager)?.removeView(overlayView)
             model.updateState(OverlayWindowScreenModel.DataState.HIDE)
+            registry["POPUP"] = "HIDE"
+            registry.remove("VIEW")
         }
     }
 

@@ -11,15 +11,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import ${pkg}.service.ServiceBinder
+import ${pkg}.service.ServiceRegistry
 
 @Composable
-fun ServiceEffect(
+fun <T : ServiceRegistry> ServiceEffect(
         serviceName: String,
-        serviceClass: Class<*>,
+        serviceClass: Class<T>,
+        onConnected: (registry: MutableMap<String, Any>) -> Unit,
+        onDisconnected: (registry: MutableMap<String, Any>) -> Unit,
         onService: (intent: Intent, registry: MutableMap<String, Any>) -> Unit
 ) {
     // Grab the current context in this part of the UI tree
-    val context = LocalContext.current
+    val context by rememberUpdatedState(LocalContext.current)
 
     // Safely use the latest onSystemEvent lambda passed to the function
     val currentOnService by rememberUpdatedState(onService)
@@ -28,25 +31,32 @@ fun ServiceEffect(
     DisposableEffect(context, serviceName) {
         var intent = Intent(context, serviceClass)
 
+        var internalRegistry: MutableMap<String, Any>? = null
+
         val connection = object : ServiceConnection {
 
-            lateinit var binder: ServiceBinder
+            lateinit var binder: ServiceBinder<T>
 
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                this.binder = service as ServiceBinder
-                this.binder.registry[serviceName] = currentOnService
+                this.binder = service as ServiceBinder<T>
+                this.binder.handlers[serviceName] = currentOnService
+                internalRegistry = this.binder.service.registry
+                onConnected(this.binder.service.registry)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
-                this.binder.registry.remove(serviceName)
+                this.binder.handlers.remove(serviceName)
+                onDisconnected(this.binder.service.registry)
             }
+
         }
 
         context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
         // When the effect leaves the Composition, remove the callback
         onDispose {
-            connection.binder.registry.remove(serviceName)
+            onDisconnected(internalRegistry!!)
+            connection.binder.handlers.remove(serviceName)
             context.unbindService(connection)
         }
     }

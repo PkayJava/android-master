@@ -4,15 +4,15 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 
-class ComposableService : Service() {
+class ComposableService : Service(), ServiceRegistry {
 
-    private lateinit var binder: ServiceBinder
+    private lateinit var binder: ServiceBinder<ComposableService>
 
-    lateinit var registry: MutableMap<String, Any>
+    override lateinit var registry: MutableMap<String, Any>
 
     override fun onCreate() {
         super.onCreate()
-        this.binder = ServiceBinder()
+        this.binder = ServiceBinder(this)
         this.registry = mutableMapOf()
     }
 
@@ -22,7 +22,7 @@ class ComposableService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val serviceName = intent.getStringExtra(NAME)
-        val onService = this.binder.registry[serviceName]
+        val onService = this.binder.handlers[serviceName]
         if (onService != null) {
             onService(intent, this.registry)
         }
