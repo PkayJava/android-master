@@ -15,9 +15,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -34,6 +32,7 @@ import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
+import ${pkg}.MainActivity
 import ${pkg}.R
 import ${pkg}.effect.LifecycleEffect
 import ${pkg}.effect.ServiceEffect
@@ -124,10 +123,7 @@ fun OverlayWindowScreen(
 
             var composeView = overlayView!!.findViewById<ComposeView>(R.id.compose_view)
             composeView.setContent {
-                Image(
-                        painter = painterResource(id = R.drawable.picture_in_picture),
-                        contentDescription = ""
-                )
+                SmallWindowScreen()
             }
 
             val popupLayoutParams = WindowManager.LayoutParams(
@@ -272,6 +268,44 @@ fun OverlayWindowScreen(
         }
     }
 
+}
+
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@Composable
+fun SmallWindowScreen() {
+    var context = LocalContext.current
+
+    var state by remember {
+        mutableStateOf("")
+    }
+
+    ServiceEffect(
+            serviceName = "OverlayService",
+            serviceClass = ComposableService::class.java,
+            onConnected = {
+            },
+            onDisconnected = { /*TODO*/ }) { intent, registry ->
+        val event = intent.getStringExtra("APP")
+        state = event!!
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+                painter = painterResource(id = R.drawable.picture_in_picture),
+                contentDescription = "",
+        )
+        if (state == "Background") {
+            Button(
+                    modifier = Modifier.align(alignment = Alignment.Center),
+                    onClick = {
+                        var intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                    }) {
+                Text(text = "Open")
+            }
+        }
+    }
 }
 
 fun popupLayoutParamType(): Int {

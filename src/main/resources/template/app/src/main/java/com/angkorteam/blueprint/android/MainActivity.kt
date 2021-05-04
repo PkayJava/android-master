@@ -1,5 +1,6 @@
 package ${pkg}
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -21,12 +22,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.HiltViewModelFactory
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ${pkg}.effect.LifecycleEffect
 import ${pkg}.effect.SystemInsetsEffect
+import ${pkg}.service.ComposableService
 import ${pkg}.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -48,6 +52,8 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 
+            var context = LocalContext.current
+
             var systemPadding by remember {
                 mutableStateOf(PaddingValues(start = 0.dp, top = 24.dp, end = 0.dp, bottom = 48.dp))
             }
@@ -64,12 +70,32 @@ class MainActivity : AppCompatActivity() {
                 mutableStateOf(true)
             }
 
+            LifecycleEffect { _, lifecycle ->
+                when (lifecycle) {
+                    Lifecycle.Event.ON_RESUME -> {
+                        var intent =
+                                Intent(context, ComposableService::class.java)
+                        intent.putExtra(ComposableService.NAME, "OverlayService")
+                        intent.putExtra("APP", "Foreground")
+                        context.startService(intent)
+                    }
+                    Lifecycle.Event.ON_PAUSE -> {
+                        var intent =
+                                Intent(context, ComposableService::class.java)
+                        intent.putExtra(ComposableService.NAME, "OverlayService")
+                        intent.putExtra("APP", "Background")
+                        context.startService(intent)
+                    }
+                }
+            }
+
             SystemInsetsEffect { padding, statusBar, ime, navigationBar ->
                 systemPadding = padding
                 hasStatusBar = statusBar
                 hasNavigationBar = navigationBar
                 hasIme = ime
             }
+
             Surface(
                     modifier = Modifier
                             .fillMaxSize()
