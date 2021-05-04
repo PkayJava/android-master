@@ -33,8 +33,8 @@ import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.navigationBarsWithImePadding
+
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.R
 import ${pkg}.effect.LifecycleEffect
@@ -42,7 +42,7 @@ import ${pkg}.effect.ServiceEffect
 import ${pkg}.permission.OverlayWindowPermission
 import ${pkg}.service.ComposableService
 import ${pkg}.theme.BlueprintMasterTheme
-import ${pkg}.widget.InsetAwareTopAppBar
+
 import java.util.*
 
 @ExperimentalComposeUiApi
@@ -168,19 +168,17 @@ fun OverlayWindowScreen(
         BlueprintMasterTheme {
             Scaffold(
                     topBar = {
-                        InsetAwareTopAppBar(title = { Text(text = title) })
+                        TopAppBar(title = { Text(text = title) })
                     },
                     scaffoldState = scaffoldState,
                     snackbarHost = {
                         SnackbarHost(
                                 hostState = scaffoldState.snackbarHostState,
-                                modifier = Modifier.navigationBarsWithImePadding()
                         )
                     },
             ) {
                 Box(
                         modifier = Modifier
-                                .navigationBarsPadding(bottom = true)
                                 .fillMaxSize()
                 ) {
                     Box(
@@ -240,19 +238,17 @@ fun OverlayWindowScreen(
         BlueprintMasterTheme {
             Scaffold(
                     topBar = {
-                        InsetAwareTopAppBar(title = { Text(text = title) })
+                        TopAppBar(title = { Text(text = title) })
                     },
                     scaffoldState = scaffoldState,
                     snackbarHost = {
                         SnackbarHost(
                                 hostState = scaffoldState.snackbarHostState,
-                                modifier = Modifier.navigationBarsWithImePadding()
                         )
                     },
             ) {
                 Box(
                         modifier = Modifier
-                                .navigationBarsPadding(bottom = true)
                                 .fillMaxSize()
                 ) {
                     Box(

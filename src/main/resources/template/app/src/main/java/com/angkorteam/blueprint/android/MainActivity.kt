@@ -6,20 +6,29 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.ExperimentalAnimatedInsets
-import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ${pkg}.effect.SystemInsetsEffect
 import ${pkg}.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
@@ -29,15 +38,43 @@ class MainActivity : AppCompatActivity() {
 
     val p2pModel: PictureInPictureScreenModel by viewModels()
 
-    @ExperimentalAnimatedInsets
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(
+                window, false
+        )
+
         setContent {
 
-            ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+            var systemPadding by remember {
+                mutableStateOf(PaddingValues(start = 0.dp, top = 24.dp, end = 0.dp, bottom = 48.dp))
+            }
+
+            var hasStatusBar by remember {
+                mutableStateOf(true)
+            }
+
+            var hasIme by remember {
+                mutableStateOf(false)
+            }
+
+            var hasNavigationBar by remember {
+                mutableStateOf(true)
+            }
+
+            SystemInsetsEffect { padding, statusBar, ime, navigationBar ->
+                systemPadding = padding
+                hasStatusBar = statusBar
+                hasNavigationBar = navigationBar
+                hasIme = ime
+            }
+            Surface(
+                    modifier = Modifier
+                            .fillMaxSize()
+                            .padding(systemPadding)
+            ) {
                 val controller = rememberNavController()
                 NavHost(
                         navController = controller,
@@ -48,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: LoginScreenModel = viewModel("LoginScreenModel", factory)
-                        LoginScreen(controller = controller, model = model)
+                        LoginScreen(controller = controller, model = model, hasIme = hasIme)
                     }
                     composable(
                             route = "/menu/{accessId}/{secretId}"
@@ -93,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                     composable(
-                            route = "/camera/{accessId}/{secretId}"
+                            route = "/picture/{accessId}/{secretId}"
                     ) { navBackStackEntry ->
                         val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                         val model: TakePictureScreenModel =

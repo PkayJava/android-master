@@ -28,8 +28,8 @@ import java.util.zip.ZipOutputStream;
 public class Utilities {
 
     public static void main(String[] args) throws IOException {
-        String name = "video-capture";
-        String applicationId = "video.hello.com";
+        String name = "system-insets";
+        String applicationId = "insets.hello.com";
         String gradleVersion = GradleVersionProvider.SELECTED;
         String compileSdkVersion = CompileSdkVersionProvider.SELECTED;
         String buildToolsVersion = BuildToolsVersionProvider.SELECTED;

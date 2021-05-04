@@ -34,14 +34,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.navigationBarsWithImePadding
+
+
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.common.YuvToRgbConverter
 import ${pkg}.theme.BlueprintMasterTheme
-import ${pkg}.widget.InsetAwareTopAppBar
+
 import java.util.concurrent.Executors
 
 @ExperimentalComposeUiApi
@@ -50,10 +50,10 @@ import java.util.concurrent.Executors
 @ExperimentalGetImage
 @Composable
 fun ImageOCRScreen(
-    accessId: String,
-    secretId: String,
-    controller: NavHostController,
-    model: ImageOCRScreenModel,
+        accessId: String,
+        secretId: String,
+        controller: NavHostController,
+        model: ImageOCRScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -74,7 +74,7 @@ fun ImageOCRScreen(
     }
 
     val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
             model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
@@ -84,7 +84,7 @@ fun ImageOCRScreen(
     }
 
     if (ContextCompat.checkSelfPermission(LocalContext.current, Manifest.permission.CAMERA) ==
-        PackageManager.PERMISSION_GRANTED
+            PackageManager.PERMISSION_GRANTED
     ) {
         if (dataState.value == ImageOCRScreenModel.DataState.Permission) {
             model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
@@ -116,121 +116,119 @@ fun ImageOCRScreen(
         var lunhAnalyzer by remember {
             mutableStateOf(ImageAnalysis.Builder().build().apply {
                 this.setAnalyzer(
-                    Executors.newSingleThreadExecutor(),
-                    { imageProxy ->
-                        val mediaImage = imageProxy.image
-                        if (mediaImage != null) {
-                            val image = InputImage.fromMediaImage(
-                                mediaImage,
-                                imageProxy.imageInfo.rotationDegrees
-                            )
-                            val processor = TextRecognition.getClient()
-                            processor.process(image)
-                                .addOnSuccessListener { text ->
-                                    var lunh = ""
-                                    master@ for (block in text.textBlocks) {
-                                        for (line in block.lines) {
-                                            for (element in line.elements) {
-                                                var text: String = element.text.trim()
-                                                if (isLuhnNumber(text)) {
-                                                    lunh = text
-                                                    break@master
+                        Executors.newSingleThreadExecutor(),
+                        { imageProxy ->
+                            val mediaImage = imageProxy.image
+                            if (mediaImage != null) {
+                                val image = InputImage.fromMediaImage(
+                                        mediaImage,
+                                        imageProxy.imageInfo.rotationDegrees
+                                )
+                                val processor = TextRecognition.getClient()
+                                processor.process(image)
+                                        .addOnSuccessListener { text ->
+                                            var lunh = ""
+                                            master@ for (block in text.textBlocks) {
+                                                for (line in block.lines) {
+                                                    for (element in line.elements) {
+                                                        var text: String = element.text.trim()
+                                                        if (isLuhnNumber(text)) {
+                                                            lunh = text
+                                                            break@master
+                                                        }
+                                                    }
                                                 }
                                             }
+                                            if (lunh == "") {
+                                                lunhText = ""
+                                                lunhStatus = "Point your camera at a text"
+                                            } else {
+                                                lunhText = "$lunh"
+                                                var bitmapBuffer = Bitmap.createBitmap(
+                                                        image.width, image.height, Bitmap.Config.ARGB_8888
+                                                )
+                                                YuvToRgbConverter(context).yuvToRgb(
+                                                        mediaImage,
+                                                        bitmapBuffer
+                                                )
+
+                                                lunhBitmap = bitmapBuffer
+
+                                                cameraProvider!!.unbindAll()
+                                                model.lunhReview()
+                                            }
+                                            imageProxy.close()
                                         }
-                                    }
-                                    if (lunh == "") {
-                                        lunhText = ""
-                                        lunhStatus = "Point your camera at a text"
-                                    } else {
-                                        lunhText = "$lunh"
-                                        var bitmapBuffer = Bitmap.createBitmap(
-                                            image.width, image.height, Bitmap.Config.ARGB_8888
-                                        )
-                                        YuvToRgbConverter(context).yuvToRgb(
-                                            mediaImage,
-                                            bitmapBuffer
-                                        )
-
-                                        lunhBitmap = bitmapBuffer
-
-                                        cameraProvider!!.unbindAll()
-                                        model.lunhReview()
-                                    }
-                                    imageProxy.close()
-                                }
-                                .addOnFailureListener {
-                                    imageProxy.close()
-                                }
-                        }
-                    })
+                                        .addOnFailureListener {
+                                            imageProxy.close()
+                                        }
+                            }
+                        })
             })
         }
 
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .fillMaxSize()
                 ) {
                     AndroidView(factory = { context ->
                         PreviewView(context).apply {
                             var previewView = this
                             this.layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT
                             )
                             this.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
 
                             val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
                             cameraProviderFuture.addListener(
-                                {
-                                    cameraProvider = cameraProviderFuture.get()
-                                    preview.setSurfaceProvider(previewView.surfaceProvider)
+                                    {
+                                        cameraProvider = cameraProviderFuture.get()
+                                        preview.setSurfaceProvider(previewView.surfaceProvider)
 
-                                    try {
-                                        // Unbind use cases before rebinding
-                                        cameraProvider!!.unbindAll()
+                                        try {
+                                            // Unbind use cases before rebinding
+                                            cameraProvider!!.unbindAll()
 
-                                        // Bind use cases to camera
-                                        cameraProvider!!.bindToLifecycle(
-                                            owner, cameraSelector, preview, lunhAnalyzer
-                                        )
-                                    } catch (exc: Exception) {
+                                            // Bind use cases to camera
+                                            cameraProvider!!.bindToLifecycle(
+                                                    owner, cameraSelector, preview, lunhAnalyzer
+                                            )
+                                        } catch (exc: Exception) {
 
-                                    }
-                                },
-                                ContextCompat.getMainExecutor(context)
+                                        }
+                                    },
+                                    ContextCompat.getMainExecutor(context)
                             )
                         }
                     })
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.TopCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.TopCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Text(
-                            text = lunhStatus,
-                            color = Color.White,
-                            style = MaterialTheme.typography.h6,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                                text = lunhStatus,
+                                color = Color.White,
+                                style = MaterialTheme.typography.h6,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                        .fillMaxWidth()
                         )
                     }
                 }
@@ -239,21 +237,19 @@ fun ImageOCRScreen(
     } else if (dataState.value is ImageOCRScreenModel.DataState.LunhReview) {
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .fillMaxSize()
                 ) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
                         var image_width = lunhBitmap!!.width
@@ -263,43 +259,43 @@ fun ImageOCRScreen(
                         var new_width = size.height.toInt()
 
                         rotate(
-                            degrees = 90f,
-                            pivot = Offset(0f, 0f)
+                                degrees = 90f,
+                                pivot = Offset(0f, 0f)
                         ) {
                             drawImage(
-                                image = lunhBitmap!!.asImageBitmap(),
-                                srcOffset = IntOffset(0, 0),
-                                dstOffset = IntOffset(0, -new_height),
-                                dstSize = IntSize(new_width, new_height),
+                                    image = lunhBitmap!!.asImageBitmap(),
+                                    srcOffset = IntOffset(0, 0),
+                                    dstOffset = IntOffset(0, -new_height),
+                                    dstSize = IntSize(new_width, new_height),
                             )
                         }
                     }
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.TopCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.TopCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Text(
-                            text = "Code : $lunhText",
-                            color = Color.White,
-                            style = MaterialTheme.typography.h6,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                                text = "Code : $lunhText",
+                                color = Color.White,
+                                style = MaterialTheme.typography.h6,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                        .fillMaxWidth()
                         )
                     }
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(onClick = {
                                 val route = "/menu/${accessId}/${secretId}"
@@ -315,34 +311,33 @@ fun ImageOCRScreen(
     } else if (dataState.value is ImageOCRScreenModel.DataState.Permission) {
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 val context = LocalContext.current
                 Button(
-                    onClick = {
-                        // Check permission
-                        when (PackageManager.PERMISSION_GRANTED) {
-                            ContextCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.CAMERA
-                            ) -> {
-                                model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
-                            }
-                            else -> {
-                                // Asking for permission
-                                launcher.launch(Manifest.permission.CAMERA)
+                        onClick = {
+                            // Check permission
+                            when (PackageManager.PERMISSION_GRANTED) {
+                                ContextCompat.checkSelfPermission(
+                                        context,
+                                        Manifest.permission.CAMERA
+                                ) -> {
+                                    model.updateState(state = ImageOCRScreenModel.DataState.Lunh)
+                                }
+                                else -> {
+                                    // Asking for permission
+                                    launcher.launch(Manifest.permission.CAMERA)
+                                }
                             }
                         }
-                    }
                 ) {
                     Text(text = "Check and Request Permission")
                 }

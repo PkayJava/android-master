@@ -22,14 +22,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.navigationBarsWithImePadding
+
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.R
 import ${pkg}.effect.LifecycleEffect
 import ${pkg}.permission.PictureInPicturePermission
 import ${pkg}.theme.BlueprintMasterTheme
-import ${pkg}.widget.InsetAwareTopAppBar
+
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
@@ -37,10 +37,10 @@ import ${pkg}.widget.InsetAwareTopAppBar
 @ExperimentalGetImage
 @Composable
 fun PictureInPictureScreen(
-    accessId: String,
-    secretId: String,
-    controller: NavHostController,
-    model: PictureInPictureScreenModel,
+        accessId: String,
+        secretId: String,
+        controller: NavHostController,
+        model: PictureInPictureScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -52,7 +52,7 @@ fun PictureInPictureScreen(
     var context = LocalContext.current as Activity
 
     val launcher = rememberLauncherForActivityResult(
-        PictureInPicturePermission()
+            PictureInPicturePermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
             model.updateState(state = PictureInPictureScreenModel.DataState.Normal)
@@ -87,55 +87,53 @@ fun PictureInPictureScreen(
 
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .fillMaxSize()
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.TopCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.TopCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.picture_in_picture),
-                            contentDescription = ""
+                                painter = painterResource(id = R.drawable.picture_in_picture),
+                                contentDescription = ""
                         )
                     }
 
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(onClick = {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     val pictureInPictureParamsBuilder =
-                                        PictureInPictureParams.Builder()
+                                            PictureInPictureParams.Builder()
                                     pictureInPictureParamsBuilder.setAspectRatio(
-                                        Rational(
-                                            16,
-                                            9
-                                        )
+                                            Rational(
+                                                    16,
+                                                    9
+                                            )
                                     )
 //                                    val actions = ArrayList<RemoteAction>()
 //                                    actions.add(
@@ -154,7 +152,7 @@ fun PictureInPictureScreen(
 //                                    )
 //                                    pictureInPictureParamsBuilder.setActions(actions)
                                     context.enterPictureInPictureMode(
-                                        pictureInPictureParamsBuilder.build()
+                                            pictureInPictureParamsBuilder.build()
                                     )
                                 }
                             }) {
@@ -169,45 +167,43 @@ fun PictureInPictureScreen(
 
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .fillMaxSize()
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.TopCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.TopCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.picture_in_picture),
-                            contentDescription = ""
+                                painter = painterResource(id = R.drawable.picture_in_picture),
+                                contentDescription = ""
                         )
                     }
 
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(onClick = {
                                 launcher.launch("")
@@ -221,8 +217,8 @@ fun PictureInPictureScreen(
         }
     } else if (dataState.value is PictureInPictureScreenModel.DataState.P2P) {
         Image(
-            painter = painterResource(id = R.drawable.picture_in_picture),
-            contentDescription = ""
+                painter = painterResource(id = R.drawable.picture_in_picture),
+                contentDescription = ""
         )
     }
 

@@ -16,8 +16,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.navigationBarsWithImePadding
+
+
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -26,7 +26,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.effect.ServiceEffect
 import ${pkg}.service.ComposableService
 import ${pkg}.theme.BlueprintMasterTheme
-import ${pkg}.widget.InsetAwareTopAppBar
+
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
@@ -63,7 +63,10 @@ fun ExoPlayerScreen(
                 var player = registry["player"] as SimpleExoPlayer
                 player_state = player
             },
-            onDisconnected = {}
+            onDisconnected = {registry->
+                var player = registry["player"] as SimpleExoPlayer
+                player.stop()
+            }
     ) { intent, registry ->
         var player = registry["player"] as SimpleExoPlayer
         var command = intent.getStringExtra("command")
@@ -82,19 +85,17 @@ fun ExoPlayerScreen(
     BlueprintMasterTheme {
         Scaffold(
                 topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
+                    TopAppBar(title = { Text(text = title) })
                 },
                 scaffoldState = scaffoldState,
                 snackbarHost = {
                     SnackbarHost(
                             hostState = scaffoldState.snackbarHostState,
-                            modifier = Modifier.navigationBarsWithImePadding()
                     )
                 },
         ) {
             Box(
                     modifier = Modifier
-                            .navigationBarsPadding(bottom = true)
                             .fillMaxSize()
             ) {
                 if (player_state != null) {

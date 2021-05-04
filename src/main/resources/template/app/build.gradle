@@ -125,8 +125,6 @@ dependencies {
 
     def accompanist_version = '${accompanist_version}'
     implementation "com.google.accompanist:accompanist-glide:$accompanist_version"
-    implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     def datastore_version = '${datastore_version}'
     implementation "androidx.datastore:datastore:$datastore_version"

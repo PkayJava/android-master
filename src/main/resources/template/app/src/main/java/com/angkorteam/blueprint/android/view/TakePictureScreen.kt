@@ -34,12 +34,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.navigationBarsWithImePadding
+
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.common.ImageSavedCallback
 import ${pkg}.theme.BlueprintMasterTheme
-import ${pkg}.widget.InsetAwareTopAppBar
+
 import java.io.File
 import java.util.concurrent.Executors
 
@@ -49,10 +49,10 @@ import java.util.concurrent.Executors
 @ExperimentalGetImage
 @Composable
 fun TakePictureScreen(
-    accessId: String,
-    secretId: String,
-    controller: NavHostController,
-    model: TakePictureScreenModel,
+        accessId: String,
+        secretId: String,
+        controller: NavHostController,
+        model: TakePictureScreenModel,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -70,7 +70,7 @@ fun TakePictureScreen(
     }
 
     val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
             model.updateState(state = TakePictureScreenModel.DataState.Picture)
@@ -80,7 +80,7 @@ fun TakePictureScreen(
     }
 
     if (ContextCompat.checkSelfPermission(LocalContext.current, Manifest.permission.CAMERA) ==
-        PackageManager.PERMISSION_GRANTED
+            PackageManager.PERMISSION_GRANTED
     ) {
         if (dataState.value is TakePictureScreenModel.DataState.Permission) {
             model.updateState(state = TakePictureScreenModel.DataState.Picture)
@@ -111,83 +111,81 @@ fun TakePictureScreen(
 
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .fillMaxSize()
                 ) {
                     AndroidView(factory = { context ->
                         PreviewView(context).apply {
                             var previewView = this
                             this.layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT
                             )
                             this.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
 
                             val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
                             cameraProviderFuture.addListener(
-                                {
-                                    cameraProvider = cameraProviderFuture.get()
-                                    preview.setSurfaceProvider(previewView.surfaceProvider)
+                                    {
+                                        cameraProvider = cameraProviderFuture.get()
+                                        preview.setSurfaceProvider(previewView.surfaceProvider)
 
-                                    try {
-                                        // Unbind use cases before rebinding
-                                        cameraProvider!!.unbindAll()
+                                        try {
+                                            // Unbind use cases before rebinding
+                                            cameraProvider!!.unbindAll()
 
-                                        // Bind use cases to camera
-                                        cameraProvider!!.bindToLifecycle(
-                                            owner, cameraSelector, preview, imageCapture
-                                        )
-                                    } catch (exc: Exception) {
+                                            // Bind use cases to camera
+                                            cameraProvider!!.bindToLifecycle(
+                                                    owner, cameraSelector, preview, imageCapture
+                                            )
+                                        } catch (exc: Exception) {
 
-                                    }
-                                },
-                                ContextCompat.getMainExecutor(context)
+                                        }
+                                    },
+                                    ContextCompat.getMainExecutor(context)
                             )
                         }
                     })
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(onClick = {
                                 var tempFile =
-                                    File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+                                        File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
                                 var outputParam =
-                                    ImageCapture.OutputFileOptions.Builder(tempFile).build()
+                                        ImageCapture.OutputFileOptions.Builder(tempFile).build()
                                 imageCapture.takePicture(
-                                    outputParam,
-                                    Executors.newSingleThreadExecutor(),
-                                    ImageSavedCallback(
-                                        imageSaved = { result ->
-                                            imageBitmap =
-                                                BitmapFactory.decodeFile(tempFile.absolutePath)
-                                            tempFile.delete()
-                                            model.imageReview()
-                                        },
-                                        error = { exp ->
+                                        outputParam,
+                                        Executors.newSingleThreadExecutor(),
+                                        ImageSavedCallback(
+                                                imageSaved = { result ->
+                                                    imageBitmap =
+                                                            BitmapFactory.decodeFile(tempFile.absolutePath)
+                                                    tempFile.delete()
+                                                    model.imageReview()
+                                                },
+                                                error = { exp ->
 
-                                        })
+                                                })
                                 )
                             }) {
                                 Text(text = "Take Picture")
@@ -200,21 +198,19 @@ fun TakePictureScreen(
     } else if (dataState.value is TakePictureScreenModel.DataState.PictureReview) {
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 Box(
-                    modifier = Modifier
-                        .navigationBarsPadding(bottom = true)
-                        .fillMaxSize()
+                        modifier = Modifier
+                                .fillMaxSize()
                 ) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
                         var image_width = imageBitmap!!.width
@@ -224,27 +220,27 @@ fun TakePictureScreen(
                         var new_width = size.height.toInt()
 
                         rotate(
-                            degrees = 90f,
-                            pivot = Offset(0f, 0f)
+                                degrees = 90f,
+                                pivot = Offset(0f, 0f)
                         ) {
                             drawImage(
-                                image = imageBitmap!!.asImageBitmap(),
-                                srcOffset = IntOffset(0, 0),
-                                dstOffset = IntOffset(0, -new_height),
-                                dstSize = IntSize(new_width, new_height),
+                                    image = imageBitmap!!.asImageBitmap(),
+                                    srcOffset = IntOffset(0, 0),
+                                    dstOffset = IntOffset(0, -new_height),
+                                    dstSize = IntSize(new_width, new_height),
                             )
                         }
                     }
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(alignment = Alignment.BottomCenter)
-                            .background(Color(0x88000000))
-                            .padding(10.dp)
+                            modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(alignment = Alignment.BottomCenter)
+                                    .background(Color(0x88000000))
+                                    .padding(10.dp)
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(onClick = {
                                 val route = "/menu/${accessId}/${secretId}"
@@ -260,34 +256,33 @@ fun TakePictureScreen(
     } else if (dataState.value is TakePictureScreenModel.DataState.Permission) {
         BlueprintMasterTheme {
             Scaffold(
-                topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
-                },
-                scaffoldState = scaffoldState,
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.navigationBarsWithImePadding()
-                    )
-                },
+                    topBar = {
+                        TopAppBar(title = { Text(text = title) })
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = {
+                        SnackbarHost(
+                                hostState = scaffoldState.snackbarHostState,
+                        )
+                    },
             ) {
                 val context = LocalContext.current
                 Button(
-                    onClick = {
-                        // Check permission
-                        when (PackageManager.PERMISSION_GRANTED) {
-                            ContextCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.CAMERA
-                            ) -> {
-                                model.updateState(state = TakePictureScreenModel.DataState.Picture)
-                            }
-                            else -> {
-                                // Asking for permission
-                                launcher.launch(Manifest.permission.CAMERA)
+                        onClick = {
+                            // Check permission
+                            when (PackageManager.PERMISSION_GRANTED) {
+                                ContextCompat.checkSelfPermission(
+                                        context,
+                                        Manifest.permission.CAMERA
+                                ) -> {
+                                    model.updateState(state = TakePictureScreenModel.DataState.Picture)
+                                }
+                                else -> {
+                                    // Asking for permission
+                                    launcher.launch(Manifest.permission.CAMERA)
+                                }
                             }
                         }
-                    }
                 ) {
                     Text(text = "Check and Request Permission")
                 }

@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import com.google.accompanist.insets.navigationBarsWithImePadding
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.theme.BlueprintMasterTheme
-import ${pkg}.widget.InsetAwareTopAppBar
+
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
@@ -42,20 +42,18 @@ fun MenuScreen(
     BlueprintMasterTheme {
         Scaffold(
                 topBar = {
-                    InsetAwareTopAppBar(title = { Text(text = title) })
+                    TopAppBar(title = { Text(text = title) })
                 },
                 scaffoldState = scaffoldState,
                 snackbarHost = {
                     SnackbarHost(
                             hostState = scaffoldState.snackbarHostState,
-                            modifier = Modifier.navigationBarsWithImePadding()
                     )
                 },
         ) {
             Column(
                     modifier = Modifier
-                            .verticalScroll(rememberScrollState())
-                            .navigationBarsWithImePadding()
+                            .verticalScroll(rememberScrollState()),
             ) {
                 ListItem(
                         icon = {
@@ -124,7 +122,7 @@ fun MenuScreen(
                         secondaryText = { Text(text = "Prototype") },
                         trailing = { Text(text = "By PkayJava") },
                         modifier = Modifier.clickable {
-                            val route = "/camera/${accessId}/${secretId}"
+                            val route = "/picture/${accessId}/${secretId}"
                             controller.navigate(route = route)
                         }
                 )
