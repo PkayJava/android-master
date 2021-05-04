@@ -1,5 +1,6 @@
 package ${pkg}.view
 
+
 import android.app.Activity
 import android.content.Intent
 import android.graphics.PixelFormat
@@ -33,16 +34,13 @@ import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.navigation.NavHostController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
-
-
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.R
 import ${pkg}.effect.LifecycleEffect
 import ${pkg}.effect.ServiceEffect
 import ${pkg}.permission.OverlayWindowPermission
 import ${pkg}.service.ComposableService
 import ${pkg}.theme.BlueprintMasterTheme
-
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
 @ExperimentalComposeUiApi
@@ -161,124 +159,111 @@ fun OverlayWindowScreen(
         }
     }
 
-    if (dataState.value is OverlayWindowScreenModel.DataState.SHOW ||
-            dataState.value is OverlayWindowScreenModel.DataState.HIDE
-    ) {
-
-        BlueprintMasterTheme {
-            Scaffold(
-                    topBar = {
-                        TopAppBar(title = { Text(text = title) })
-                    },
-                    scaffoldState = scaffoldState,
-                    snackbarHost = {
-                        SnackbarHost(
-                                hostState = scaffoldState.snackbarHostState,
-                        )
-                    },
-            ) {
-                Box(
-                        modifier = Modifier
-                                .fillMaxSize()
-                ) {
+    BlueprintMasterTheme {
+        Scaffold(
+                topBar = {
+                    TopAppBar(title = { Text(text = title) })
+                },
+                scaffoldState = scaffoldState,
+                snackbarHost = {
+                    SnackbarHost(
+                            hostState = scaffoldState.snackbarHostState,
+                    )
+                },
+        ) {
+            when (dataState.value) {
+                is OverlayWindowScreenModel.DataState.SHOW, OverlayWindowScreenModel.DataState.HIDE -> {
                     Box(
                             modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(alignment = Alignment.TopCenter)
-                                    .background(Color(0x88000000))
-                                    .padding(10.dp)
+                                    .fillMaxSize()
                     ) {
-                        Image(
-                                painter = painterResource(id = R.drawable.picture_in_picture),
-                                contentDescription = ""
-                        )
-                    }
-
-                    Box(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(alignment = Alignment.BottomCenter)
-                                    .background(Color(0x88000000))
-                                    .padding(10.dp)
-                    ) {
-                        Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceEvenly
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(alignment = Alignment.TopCenter)
+                                        .background(Color(0x88000000))
+                                        .padding(10.dp)
                         ) {
-                            if (dataState.value is OverlayWindowScreenModel.DataState.HIDE) {
-                                Button(onClick = {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        var intent = Intent(context, ComposableService::class.java)
-                                        intent.putExtra(ComposableService.NAME, "Overlay")
-                                        intent.putExtra("ACTION", "SHOW")
-                                        context.startService(intent)
+                            Image(
+                                    painter = painterResource(id = R.drawable.picture_in_picture),
+                                    contentDescription = ""
+                            )
+                        }
+
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(alignment = Alignment.BottomCenter)
+                                        .background(Color(0x88000000))
+                                        .padding(10.dp)
+                        ) {
+                            Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                if (dataState.value is OverlayWindowScreenModel.DataState.HIDE) {
+                                    Button(onClick = {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            var intent =
+                                                    Intent(context, ComposableService::class.java)
+                                            intent.putExtra(ComposableService.NAME, "Overlay")
+                                            intent.putExtra("ACTION", "SHOW")
+                                            context.startService(intent)
+                                        }
+                                    }) {
+                                        Text(text = "Show")
                                     }
-                                }) {
-                                    Text(text = "Show")
-                                }
-                            } else if (dataState.value is OverlayWindowScreenModel.DataState.SHOW) {
-                                Button(onClick = {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        var intent = Intent(context, ComposableService::class.java)
-                                        intent.putExtra(ComposableService.NAME, "Overlay")
-                                        intent.putExtra("ACTION", "HIDE")
-                                        context.startService(intent)
+                                } else if (dataState.value is OverlayWindowScreenModel.DataState.SHOW) {
+                                    Button(onClick = {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            var intent =
+                                                    Intent(context, ComposableService::class.java)
+                                            intent.putExtra(ComposableService.NAME, "Overlay")
+                                            intent.putExtra("ACTION", "HIDE")
+                                            context.startService(intent)
+                                        }
+                                    }) {
+                                        Text(text = "Hide")
                                     }
-                                }) {
-                                    Text(text = "Hide")
                                 }
                             }
                         }
                     }
                 }
-            }
-        }
-    } else if (dataState.value is OverlayWindowScreenModel.DataState.Permission) {
-
-        BlueprintMasterTheme {
-            Scaffold(
-                    topBar = {
-                        TopAppBar(title = { Text(text = title) })
-                    },
-                    scaffoldState = scaffoldState,
-                    snackbarHost = {
-                        SnackbarHost(
-                                hostState = scaffoldState.snackbarHostState,
-                        )
-                    },
-            ) {
-                Box(
-                        modifier = Modifier
-                                .fillMaxSize()
-                ) {
+                is OverlayWindowScreenModel.DataState.Permission -> {
                     Box(
                             modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(alignment = Alignment.TopCenter)
-                                    .background(Color(0x88000000))
-                                    .padding(10.dp)
+                                    .fillMaxSize()
                     ) {
-                        Image(
-                                painter = painterResource(id = R.drawable.picture_in_picture),
-                                contentDescription = ""
-                        )
-                    }
-
-                    Box(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(alignment = Alignment.BottomCenter)
-                                    .background(Color(0x88000000))
-                                    .padding(10.dp)
-                    ) {
-                        Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceEvenly
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(alignment = Alignment.TopCenter)
+                                        .background(Color(0x88000000))
+                                        .padding(10.dp)
                         ) {
-                            Button(onClick = {
-                                launcher.launch("")
-                            }) {
-                                Text(text = "Request Permission")
+                            Image(
+                                    painter = painterResource(id = R.drawable.picture_in_picture),
+                                    contentDescription = ""
+                            )
+                        }
+
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(alignment = Alignment.BottomCenter)
+                                        .background(Color(0x88000000))
+                                        .padding(10.dp)
+                        ) {
+                            Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                Button(onClick = {
+                                    launcher.launch("")
+                                }) {
+                                    Text(text = "Request Permission")
+                                }
                             }
                         }
                     }
