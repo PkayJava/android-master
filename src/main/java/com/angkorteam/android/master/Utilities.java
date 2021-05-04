@@ -28,8 +28,8 @@ import java.util.zip.ZipOutputStream;
 public class Utilities {
 
     public static void main(String[] args) throws IOException {
-        String name = "mock";
-        String applicationId = "mock.hello.com";
+        String name = "video-capture";
+        String applicationId = "video.hello.com";
         String gradleVersion = GradleVersionProvider.SELECTED;
         String compileSdkVersion = CompileSdkVersionProvider.SELECTED;
         String buildToolsVersion = BuildToolsVersionProvider.SELECTED;
