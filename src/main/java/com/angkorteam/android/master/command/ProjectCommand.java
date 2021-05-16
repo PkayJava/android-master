@@ -22,7 +22,6 @@ import com.angkorteam.android.master.support.NavigationComposeVersionProvider;
 import com.angkorteam.android.master.support.NavigationKtxVersionProvider;
 import com.angkorteam.android.master.support.OkHttpVersionProvider;
 import com.angkorteam.android.master.support.PagingComposeVersionProvider;
-import com.angkorteam.android.master.support.RetrofitVersionProvider;
 import com.angkorteam.android.master.support.RoomVersionProvider;
 import com.angkorteam.android.master.support.TargetSdkVersionProvider;
 import com.angkorteam.android.master.support.ViewModelComposeVersionProvider;
@@ -58,7 +57,6 @@ public class ProjectCommand {
             @ShellOption(help = "activity compose version", defaultValue = ActivityComposeVersionProvider.SELECTED, valueProvider = ActivityComposeVersionProvider.class) String activityComposeVersion,
             @ShellOption(help = "hilt version", defaultValue = HiltVersionProvider.SELECTED, valueProvider = HiltVersionProvider.class) String hiltVersion,
             @ShellOption(help = "room version", defaultValue = RoomVersionProvider.SELECTED, valueProvider = RoomVersionProvider.class) String roomVersion,
-            @ShellOption(help = "retrofit version", defaultValue = RetrofitVersionProvider.SELECTED, valueProvider = RetrofitVersionProvider.class) String retrofitVersion,
             @ShellOption(help = "okhttp version", defaultValue = OkHttpVersionProvider.SELECTED, valueProvider = OkHttpVersionProvider.class) String okHttpVersion,
             @ShellOption(help = "constraint layout compose version", defaultValue = ConstraintLayoutComposeVersionProvider.SELECTED, valueProvider = ConstraintLayoutComposeVersionProvider.class) String constraintLayoutComposeVersion,
             @ShellOption(help = "compose version", defaultValue = ComposeVersionProvider.SELECTED, valueProvider = ComposeVersionProvider.class) String composeVersion,
@@ -90,7 +88,6 @@ public class ProjectCommand {
         params.put("accompanistGlideVersion", accompanistGlideVersion);
         params.put("hiltVersion", hiltVersion);
         params.put("roomVersion", roomVersion);
-        params.put("retrofitVersion", retrofitVersion);
         params.put("okHttpVersion", okHttpVersion);
         params.put("constraintLayoutComposeVersion", constraintLayoutComposeVersion);
         params.put("datastoreVersion", datastoreVersion);

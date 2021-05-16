@@ -22,7 +22,6 @@ import com.angkorteam.android.master.support.NavigationComposeVersionProvider;
 import com.angkorteam.android.master.support.NavigationKtxVersionProvider;
 import com.angkorteam.android.master.support.OkHttpVersionProvider;
 import com.angkorteam.android.master.support.PagingComposeVersionProvider;
-import com.angkorteam.android.master.support.RetrofitVersionProvider;
 import com.angkorteam.android.master.support.RoomVersionProvider;
 import com.angkorteam.android.master.support.TargetSdkVersionProvider;
 import com.angkorteam.android.master.support.ViewModelComposeVersionProvider;
@@ -69,7 +68,6 @@ public class Utilities {
         String accompanistVersion = AccompanistGlideVersionProvider.SELECTED;
         String hiltVersion = HiltVersionProvider.SELECTED;
         String roomVersion = RoomVersionProvider.SELECTED;
-        String retrofitVersion = RetrofitVersionProvider.SELECTED;
         String okHttpVersion = OkHttpVersionProvider.SELECTED;
         String constraintLayoutComposeVersion = ConstraintLayoutComposeVersionProvider.SELECTED;
         String datastoreVersion = DatastoreVersionProvider.SELECTED;
@@ -99,7 +97,6 @@ public class Utilities {
         params.put("accompanistVersion", accompanistVersion);
         params.put("hiltVersion", hiltVersion);
         params.put("roomVersion", roomVersion);
-        params.put("retrofitVersion", retrofitVersion);
         params.put("okHttpVersion", okHttpVersion);
         params.put("constraintLayoutComposeVersion", constraintLayoutComposeVersion);
         params.put("datastoreVersion", datastoreVersion);

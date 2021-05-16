@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.paging/paging-compose
  * androidx.paging:paging-compose
  */
 @Component

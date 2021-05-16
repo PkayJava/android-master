@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * https://mvnrepository.com/artifact/androidx.compose.ui/ui?repo=space-public-compose-dev
+ */
 @Component
 public class ComposeVersionProvider extends ValueProviderSupport {
 
@@ -22,7 +25,9 @@ public class ComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_BETA05 = "1.0.0-beta05";
 
-    public static final String SELECTED = V_1_0_0_BETA05;
+    public static final String V_1_0_0_BETA06 = "1.0.0-beta06";
+
+    public static final String SELECTED = V_1_0_0_BETA06;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -32,6 +37,7 @@ public class ComposeVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_0_0_BETA03));
         proposal.add(new CompletionProposal(V_1_0_0_BETA04));
         proposal.add(new CompletionProposal(V_1_0_0_BETA05));
+        proposal.add(new CompletionProposal(V_1_0_0_BETA06));
         return proposal;
     }
 

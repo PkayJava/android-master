@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/com.google.dagger/hilt-android-gradle-plugin
  * com.google.dagger:hilt-android-gradle-plugin
  */
 @Component

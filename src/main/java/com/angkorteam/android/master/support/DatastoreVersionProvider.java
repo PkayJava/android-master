@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.datastore/datastore-preferences
  * androidx.datastore:datastore-preferences
  */
 @Component

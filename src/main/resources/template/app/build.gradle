@@ -110,10 +110,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
-    def retrofit_version = '${retrofit_version}'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
     def okhttp_version = '${okhttp_version}'
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
 

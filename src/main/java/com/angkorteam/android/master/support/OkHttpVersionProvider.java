@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+ */
 @Component
 public class OkHttpVersionProvider extends ValueProviderSupport {
 

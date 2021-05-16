@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.navigation/navigation-compose
  * androidx.navigation:navigation-compose
  */
 @Component

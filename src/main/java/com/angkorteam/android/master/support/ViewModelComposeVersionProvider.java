@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel-compose
  * androidx.lifecycle:lifecycle-viewmodel-compose
  */
 @Component

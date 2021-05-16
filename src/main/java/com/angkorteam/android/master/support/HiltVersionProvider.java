@@ -10,22 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.hilt/hilt-navigation-fragment
  * androidx.hilt:hilt-navigation-fragment
  */
 @Component
 public class HiltVersionProvider extends ValueProviderSupport {
 
-    public static final String V_1_0_0_ALPHA03 = "1.0.0-alpha03";
+    public static final String V_1_0_0 = "1.0.0";
 
-    public static final String V_1_0_0_BETA01 = "1.0.0-beta01";
-
-    public static final String SELECTED = V_1_0_0_BETA01;
+    public static final String SELECTED = V_1_0_0;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
-        proposal.add(new CompletionProposal(V_1_0_0_ALPHA03));
-        proposal.add(new CompletionProposal(V_1_0_0_BETA01));
+        proposal.add(new CompletionProposal(V_1_0_0));
         return proposal;
     }
 

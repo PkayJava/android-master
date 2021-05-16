@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.room/room-runtime
  * androidx.room:room-runtime
  */
 @Component
@@ -19,13 +20,16 @@ public class RoomVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_4_0_ALPHA01 = "2.4.0-alpha01";
 
-    public static final String SELECTED = V_2_4_0_ALPHA01;
+    public static final String V_2_4_0_ALPHA02 = "2.4.0-alpha02";
+
+    public static final String SELECTED = V_2_4_0_ALPHA02;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
         proposal.add(new CompletionProposal(V_2_3_0));
         proposal.add(new CompletionProposal(V_2_4_0_ALPHA01));
+        proposal.add(new CompletionProposal(V_2_4_0_ALPHA02));
         return proposal;
     }
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
  * org.jetbrains.kotlin:kotlin-gradle-plugin
  */
 @Component

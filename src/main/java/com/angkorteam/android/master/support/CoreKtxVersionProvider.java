@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.core/core-ktx
  * androidx.core:core-ktx
  */
 @Component
@@ -21,6 +22,8 @@ public class CoreKtxVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_6_0_alpha02 = "1.6.0-alpha02";
 
+    public static final String V_1_6_0_alpha03 = "1.6.0-alpha03";
+
     public static final String SELECTED = V_1_3_2;
 
     @Override
@@ -29,6 +32,7 @@ public class CoreKtxVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_3_2));
         proposal.add(new CompletionProposal(V_1_5_0_beta01));
         proposal.add(new CompletionProposal(V_1_6_0_alpha02));
+        proposal.add(new CompletionProposal(V_1_6_0_alpha03));
         return proposal;
     }
 

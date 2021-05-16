@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * https://mvnrepository.com/artifact/androidx.activity/activity-compose
  * androidx.activity:activity-compose
  */
 @Component
