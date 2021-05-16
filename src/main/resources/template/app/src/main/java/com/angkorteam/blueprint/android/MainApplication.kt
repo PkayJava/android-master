@@ -33,4 +33,9 @@ class MainApplication : Application() {
             File(this.filesDir, "datastore/$name.pref")
         }
 
+    companion object {
+        const val DEBUG = BuildConfig.BUILD_TYPE != "release"
+        const val TAG = "MainApplication"
+    }
+
 }

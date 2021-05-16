@@ -14,7 +14,7 @@ import java.util.List;
  * com.android.tools.build:gradle
  */
 @Component
-public class BuildToolGradleVersionProvider extends ValueProviderSupport {
+public class BuildToolsGradleVersionProvider extends ValueProviderSupport {
 
     public static final String V_7_0_0_ALPHA08 = "7.0.0-alpha08";
 

@@ -1,30 +1,7 @@
 package com.angkorteam.android.master;
 
 import com.angkorteam.android.master.command.ProjectCommand;
-import com.angkorteam.android.master.support.AccompanistGlideVersionProvider;
-import com.angkorteam.android.master.support.ActivityComposeVersionProvider;
-import com.angkorteam.android.master.support.AppCompatVersionProvider;
-import com.angkorteam.android.master.support.BuildToolGradleVersionProvider;
-import com.angkorteam.android.master.support.BuildToolsVersionProvider;
-import com.angkorteam.android.master.support.CompileSdkVersionProvider;
-import com.angkorteam.android.master.support.ComposeVersionProvider;
-import com.angkorteam.android.master.support.ConstraintLayoutComposeVersionProvider;
-import com.angkorteam.android.master.support.CoreKtxVersionProvider;
-import com.angkorteam.android.master.support.DatastoreVersionProvider;
-import com.angkorteam.android.master.support.GradleVersionProvider;
-import com.angkorteam.android.master.support.HiltPluginVersionProvider;
-import com.angkorteam.android.master.support.HiltVersionProvider;
-import com.angkorteam.android.master.support.KotlinVersionProvider;
-import com.angkorteam.android.master.support.LifecycleKtxVersionProvider;
-import com.angkorteam.android.master.support.MaterialVersionProvider;
-import com.angkorteam.android.master.support.MinSdkVersionProvider;
-import com.angkorteam.android.master.support.NavigationComposeVersionProvider;
-import com.angkorteam.android.master.support.NavigationKtxVersionProvider;
-import com.angkorteam.android.master.support.OkHttpVersionProvider;
-import com.angkorteam.android.master.support.PagingComposeVersionProvider;
-import com.angkorteam.android.master.support.RoomVersionProvider;
-import com.angkorteam.android.master.support.TargetSdkVersionProvider;
-import com.angkorteam.android.master.support.ViewModelComposeVersionProvider;
+import com.angkorteam.android.master.support.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -51,8 +28,8 @@ import java.util.zip.ZipOutputStream;
 public class Utilities {
 
     public static void main(String[] args) throws IOException {
-        String name = "mock";
-        String applicationId = "mock.com";
+        String name = "system-insets";
+        String applicationId = "insets.hello.com";
         String gradleVersion = GradleVersionProvider.SELECTED;
         String compileSdkVersion = CompileSdkVersionProvider.SELECTED;
         String buildToolsVersion = BuildToolsVersionProvider.SELECTED;
@@ -68,6 +45,7 @@ public class Utilities {
         String accompanistVersion = AccompanistGlideVersionProvider.SELECTED;
         String hiltVersion = HiltVersionProvider.SELECTED;
         String roomVersion = RoomVersionProvider.SELECTED;
+        String commonsIOVersion = CommonsIOVersionProvider.SELECTED;
         String okHttpVersion = OkHttpVersionProvider.SELECTED;
         String constraintLayoutComposeVersion = ConstraintLayoutComposeVersionProvider.SELECTED;
         String datastoreVersion = DatastoreVersionProvider.SELECTED;
@@ -76,7 +54,8 @@ public class Utilities {
         String composeVersion = ComposeVersionProvider.SELECTED;
         String kotlinVersion = KotlinVersionProvider.SELECTED;
         String hiltPluginVersion = HiltPluginVersionProvider.SELECTED;
-        String buildToolGradleVersion = BuildToolGradleVersionProvider.SELECTED;
+        String buildToolGradleVersion = BuildToolsGradleVersionProvider.SELECTED;
+        String gsonVersion = GsonVersionProvider.SELECTED;
 
         Map<String, String> params = new HashMap<>();
 
@@ -97,6 +76,8 @@ public class Utilities {
         params.put("accompanistVersion", accompanistVersion);
         params.put("hiltVersion", hiltVersion);
         params.put("roomVersion", roomVersion);
+        params.put("commonsIOVersion", commonsIOVersion);
+        params.put("gsonVersion", gsonVersion);
         params.put("okHttpVersion", okHttpVersion);
         params.put("constraintLayoutComposeVersion", constraintLayoutComposeVersion);
         params.put("datastoreVersion", datastoreVersion);
@@ -109,7 +90,7 @@ public class Utilities {
 
         File workspace = generate(params);
 
-        File dest = new File(System.getProperty("user.dir"), name);
+        File dest = new File("/Users/macbook/github/PkayJava", name);
 
         FileUtils.copyDirectory(workspace, dest);
         FileUtils.deleteDirectory(workspace);
@@ -169,9 +150,9 @@ public class Utilities {
 
     public static void rebuildAppBuildGradleFile(File output, String name, byte[] content, String compile_sdk_version, String build_tools_version, String pkg, String min_sdk_version, String target_sdk_version,
                                                  String core_ktx_version, String appcompat_version, String material_version, String navigation_compose_version, String navigation_ktx_version, String paging_compose_version, String activity_compose_version, String accompanist_version,
-                                                 String hilt_version, String room_version, String retrofit_version, String okhttp_version, String constraint_layout_compose_version,
+                                                 String hilt_version, String room_version, String commons_io_version, String okhttp_version, String constraint_layout_compose_version,
                                                  String datastore_version, String view_model_compose_version,
-                                                 String lifecycle_ktx_version) throws IOException {
+                                                 String lifecycle_ktx_version, String gson_version) throws IOException {
         String plain = new String(content, StandardCharsets.UTF_8);
         plain = StringUtils.replace(plain, "${compile_sdk_version}", compile_sdk_version);
         plain = StringUtils.replace(plain, "${build_tools_version}", build_tools_version);
@@ -188,12 +169,13 @@ public class Utilities {
         plain = StringUtils.replace(plain, "${activity_compose_version}", activity_compose_version);
         plain = StringUtils.replace(plain, "${hilt_version}", hilt_version);
         plain = StringUtils.replace(plain, "${room_version}", room_version);
-        plain = StringUtils.replace(plain, "${retrofit_version}", retrofit_version);
+        plain = StringUtils.replace(plain, "${commons_io_version}", commons_io_version);
         plain = StringUtils.replace(plain, "${okhttp_version}", okhttp_version);
         plain = StringUtils.replace(plain, "${constraint_layout_compose_version}", constraint_layout_compose_version);
         plain = StringUtils.replace(plain, "${datastore_version}", datastore_version);
         plain = StringUtils.replace(plain, "${view_model_compose_version}", view_model_compose_version);
         plain = StringUtils.replace(plain, "${lifecycle_ktx_version}", lifecycle_ktx_version);
+        plain = StringUtils.replace(plain, "${gson_version}", gson_version);
         FileUtils.write(new File(output, name), plain, StandardCharsets.UTF_8);
     }
 
@@ -341,8 +323,9 @@ public class Utilities {
                     } else if (key.equals("app/build.gradle")) {
                         Utilities.rebuildAppBuildGradleFile(workspace, key, content, params.get("compileSdkVersion"), params.get("buildToolsVersion"), params.get("applicationId"), params.get("minSdkVersion"), params.get("targetSdkVersion"),
                                 params.get("coreKtxVersion"), params.get("appCompatVersion"), params.get("materialVersion"), params.get("navigationComposeVersion"), params.get("navigationKtxVersion"), params.get("pagingComposeVersion"), params.get("activityComposeVersion"), params.get("accompanistVersion"),
-                                params.get("hiltVersion"), params.get("roomVersion"), params.get("retrofitVersion"), params.get("okHttpVersion"), params.get("constraintLayoutComposeVersion"),
-                                params.get("datastoreVersion"), params.get("viewModelComposeVersion"), params.get("lifecycleKtxVersion"));
+                                params.get("hiltVersion"), params.get("roomVersion"), params.get("commonsIOVersion"), params.get("okHttpVersion"), params.get("constraintLayoutComposeVersion"),
+                                params.get("datastoreVersion"), params.get("viewModelComposeVersion"), params.get("lifecycleKtxVersion"),
+                                params.get("gsonVersion"));
                     } else if (key.equals("build.gradle")) {
                         Utilities.rebuildBuildGradleFile(workspace, key, content, params.get("composeVersion"), params.get("kotlinVersion"), params.get("hiltPluginVersion"), params.get("buildToolGradleVersion"));
                     } else if (key.equals("local.properties")) {
