@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+
 import static org.springframework.shell.standard.ShellOption.NULL;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class ProjectCommand {
             @ShellOption(help = "material version", defaultValue = MaterialVersionProvider.SELECTED, valueProvider = MaterialVersionProvider.class) String materialVersion,
             @ShellOption(help = "navigation ktx version", defaultValue = NavigationKtxVersionProvider.SELECTED, valueProvider = NavigationKtxVersionProvider.class) String navigationKtxVersion,
             @ShellOption(help = "navigation compose version", defaultValue = NavigationComposeVersionProvider.SELECTED, valueProvider = NavigationComposeVersionProvider.class) String navigationComposeVersion,
+            @ShellOption(help = "hilt navigation compose version", defaultValue = HiltNavigationComposeVersionProvider.SELECTED, valueProvider = HiltNavigationComposeVersionProvider.class) String hiltNavigationComposeVersion,
             @ShellOption(help = "paging compose version", defaultValue = PagingComposeVersionProvider.SELECTED, valueProvider = PagingComposeVersionProvider.class) String pagingComposeVersion,
             @ShellOption(help = "accompanist glide version", defaultValue = AccompanistGlideVersionProvider.SELECTED, valueProvider = AccompanistGlideVersionProvider.class) String accompanistGlideVersion,
             @ShellOption(help = "activity compose version", defaultValue = ActivityComposeVersionProvider.SELECTED, valueProvider = ActivityComposeVersionProvider.class) String activityComposeVersion,
@@ -44,6 +46,7 @@ public class ProjectCommand {
             @ShellOption(help = "build tools gradle version", defaultValue = BuildToolsGradleVersionProvider.SELECTED, valueProvider = BuildToolsGradleVersionProvider.class) String buildToolGradleVersion,
             @ShellOption(help = "compose view model version", defaultValue = ViewModelComposeVersionProvider.SELECTED, valueProvider = ViewModelComposeVersionProvider.class) String viewModelComposeVersion,
             @ShellOption(help = "lifecycle ktx version", defaultValue = LifecycleKtxVersionProvider.SELECTED, valueProvider = LifecycleKtxVersionProvider.class) String lifecycleKtxVersion,
+            @ShellOption(help = "hilt lifecycle view model version", defaultValue = HiltLifecycleViewModelVersionProvider.SELECTED, valueProvider = HiltLifecycleViewModelVersionProvider.class) String hiltLifecycleViewModelVersion,
             @ShellOption(help = "gson version", defaultValue = GsonVersionProvider.SELECTED, valueProvider = GsonVersionProvider.class) String gsonVersion,
             @ShellOption(help = "android sdk dir", defaultValue = NULL) String sdkDir) throws Throwable {
 
@@ -78,6 +81,8 @@ public class ProjectCommand {
         params.put("hiltPluginVersion", hiltPluginVersion);
         params.put("buildToolGradleVersion", buildToolGradleVersion);
         params.put("gsonVersion", gsonVersion);
+        params.put("hilt_lifecycle_view_model_version", hiltLifecycleViewModelVersion);
+        params.put("hilt_navigation_compose_version", hiltNavigationComposeVersion);
 
         if (name.length() == 0) {
             return "invalid name";

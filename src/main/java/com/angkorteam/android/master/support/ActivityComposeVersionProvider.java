@@ -26,7 +26,9 @@ public class ActivityComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_3_0_ALPHA07 = "1.3.0-alpha07";
 
-    public static final String SELECTED = V_1_3_0_ALPHA07;
+    public static final String V_1_3_0_ALPHA08 = "1.3.0-alpha08";
+
+    public static final String SELECTED = V_1_3_0_ALPHA08;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -36,6 +38,7 @@ public class ActivityComposeVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_3_0_ALPHA05));
         proposal.add(new CompletionProposal(V_1_3_0_ALPHA06));
         proposal.add(new CompletionProposal(V_1_3_0_ALPHA07));
+        proposal.add(new CompletionProposal(V_1_3_0_ALPHA08));
         return proposal;
     }
 

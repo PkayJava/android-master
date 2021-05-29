@@ -91,12 +91,16 @@ dependencies {
 
     def navigation_compose_version = '${navigation_compose_version}'
     implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
+    def hilt_navigation_compose_version = '${hilt_navigation_compose_version}'
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 
     def paging_compose_version = '${paging_compose_version}'
     implementation "androidx.paging:paging-compose:$paging_compose_version"
 
     def view_model_compose_version = '${view_model_compose_version}'
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$view_model_compose_version"
+    def hilt_lifecycle_view_model_version = '${hilt_lifecycle_view_model_version}'
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_view_model_version"
 
     def activity_compose_version = '${activity_compose_version}'
     implementation "androidx.activity:activity-compose:$activity_compose_version"

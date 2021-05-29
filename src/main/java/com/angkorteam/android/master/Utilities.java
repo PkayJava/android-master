@@ -56,6 +56,8 @@ public class Utilities {
         String hiltPluginVersion = HiltPluginVersionProvider.SELECTED;
         String buildToolGradleVersion = BuildToolsGradleVersionProvider.SELECTED;
         String gsonVersion = GsonVersionProvider.SELECTED;
+        String hiltLifecycleViewModelVersion = HiltLifecycleViewModelVersionProvider.SELECTED;
+        String hiltNavigationComposeVersion = HiltNavigationComposeVersionProvider.SELECTED;
 
         Map<String, String> params = new HashMap<>();
 
@@ -87,6 +89,8 @@ public class Utilities {
         params.put("kotlinVersion", kotlinVersion);
         params.put("hiltPluginVersion", hiltPluginVersion);
         params.put("buildToolGradleVersion", buildToolGradleVersion);
+        params.put("hilt_lifecycle_view_model_version", hiltLifecycleViewModelVersion);
+        params.put("hilt_navigation_compose_version", hiltNavigationComposeVersion);
 
         File workspace = generate(params);
 
@@ -152,7 +156,8 @@ public class Utilities {
                                                  String core_ktx_version, String appcompat_version, String material_version, String navigation_compose_version, String navigation_ktx_version, String paging_compose_version, String activity_compose_version, String accompanist_version,
                                                  String hilt_version, String room_version, String commons_io_version, String okhttp_version, String constraint_layout_compose_version,
                                                  String datastore_version, String view_model_compose_version,
-                                                 String lifecycle_ktx_version, String gson_version) throws IOException {
+                                                 String lifecycle_ktx_version, String gson_version,
+                                                 String hilt_lifecycle_view_model_version, String hilt_navigation_compose_version) throws IOException {
         String plain = new String(content, StandardCharsets.UTF_8);
         plain = StringUtils.replace(plain, "${compile_sdk_version}", compile_sdk_version);
         plain = StringUtils.replace(plain, "${build_tools_version}", build_tools_version);
@@ -176,6 +181,8 @@ public class Utilities {
         plain = StringUtils.replace(plain, "${view_model_compose_version}", view_model_compose_version);
         plain = StringUtils.replace(plain, "${lifecycle_ktx_version}", lifecycle_ktx_version);
         plain = StringUtils.replace(plain, "${gson_version}", gson_version);
+        plain = StringUtils.replace(plain, "${hilt_lifecycle_view_model_version}", hilt_lifecycle_view_model_version);
+        plain = StringUtils.replace(plain, "${hilt_navigation_compose_version}", hilt_navigation_compose_version);
         FileUtils.write(new File(output, name), plain, StandardCharsets.UTF_8);
     }
 
@@ -325,7 +332,8 @@ public class Utilities {
                                 params.get("coreKtxVersion"), params.get("appCompatVersion"), params.get("materialVersion"), params.get("navigationComposeVersion"), params.get("navigationKtxVersion"), params.get("pagingComposeVersion"), params.get("activityComposeVersion"), params.get("accompanistVersion"),
                                 params.get("hiltVersion"), params.get("roomVersion"), params.get("commonsIOVersion"), params.get("okHttpVersion"), params.get("constraintLayoutComposeVersion"),
                                 params.get("datastoreVersion"), params.get("viewModelComposeVersion"), params.get("lifecycleKtxVersion"),
-                                params.get("gsonVersion"));
+                                params.get("gsonVersion"),
+                                params.get("hilt_lifecycle_view_model_version"), params.get("hilt_navigation_compose_version"));
                     } else if (key.equals("build.gradle")) {
                         Utilities.rebuildBuildGradleFile(workspace, key, content, params.get("composeVersion"), params.get("kotlinVersion"), params.get("hiltPluginVersion"), params.get("buildToolGradleVersion"));
                     } else if (key.equals("local.properties")) {

@@ -16,23 +16,17 @@ import java.util.List;
 @Component
 public class ConstraintLayoutComposeVersionProvider extends ValueProviderSupport {
 
-    public static final String V_1_0_0_ALPHA03 = "1.0.0-alpha03";
-
-    public static final String V_1_0_0_ALPHA04 = "1.0.0-alpha04";
-
-    public static final String V_1_0_0_ALPHA05 = "1.0.0-alpha05";
-
     public static final String V_1_0_0_ALPHA06 = "1.0.0-alpha06";
 
-    public static final String SELECTED = V_1_0_0_ALPHA06;
+    public static final String V_1_0_0_ALPHA07 = "1.0.0-alpha07";
+
+    public static final String SELECTED = V_1_0_0_ALPHA07;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
         List<CompletionProposal> proposal = new ArrayList<>();
-        proposal.add(new CompletionProposal(V_1_0_0_ALPHA03));
-        proposal.add(new CompletionProposal(V_1_0_0_ALPHA04));
-        proposal.add(new CompletionProposal(V_1_0_0_ALPHA05));
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA06));
+        proposal.add(new CompletionProposal(V_1_0_0_ALPHA07));
         return proposal;
     }
 

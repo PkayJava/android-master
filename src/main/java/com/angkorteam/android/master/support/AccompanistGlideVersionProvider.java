@@ -28,7 +28,9 @@ public class AccompanistGlideVersionProvider extends ValueProviderSupport {
 
     public static final String V_0_9_1 = "0.9.1";
 
-    public static final String SELECTED = V_0_9_1;
+    public static final String V_0_10_0 = "0.10.0";
+
+    public static final String SELECTED = V_0_10_0;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -39,6 +41,7 @@ public class AccompanistGlideVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_0_8_1));
         proposal.add(new CompletionProposal(V_0_9_0));
         proposal.add(new CompletionProposal(V_0_9_1));
+        proposal.add(new CompletionProposal(V_0_10_0));
         return proposal;
     }
 

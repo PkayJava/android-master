@@ -22,7 +22,9 @@ public class NavigationKtxVersionProvider extends ValueProviderSupport {
 
     public static final String V_2_3_5 = "2.3.5";
 
-    public static final String SELECTED = V_2_3_5;
+    public static final String V_2_4_0_ALPHA01 = "2.4.0-alpha01";
+
+    public static final String SELECTED = V_2_4_0_ALPHA01;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -30,6 +32,7 @@ public class NavigationKtxVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_2_3_3));
         proposal.add(new CompletionProposal(V_2_3_4));
         proposal.add(new CompletionProposal(V_2_3_5));
+        proposal.add(new CompletionProposal(V_2_4_0_ALPHA01));
         return proposal;
     }
 

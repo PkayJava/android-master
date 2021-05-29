@@ -32,6 +32,7 @@ public class KotlinVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_4_30));
         proposal.add(new CompletionProposal(V_1_4_31));
         proposal.add(new CompletionProposal(V_1_4_32));
+        proposal.add(new CompletionProposal(V_1_5_0));
         return proposal;
     }
 

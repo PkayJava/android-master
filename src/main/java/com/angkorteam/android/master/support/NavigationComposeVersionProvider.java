@@ -22,7 +22,11 @@ public class NavigationComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_ALPHA10 = "1.0.0-alpha10";
 
-    public static final String SELECTED = V_1_0_0_ALPHA10;
+    public static final String V_2_4_0_ALPHA01 = "2.4.0-alpha01";
+
+    public static final String V_2_4_0_ALPHA02 = "2.4.0-alpha02";
+
+    public static final String SELECTED = V_2_4_0_ALPHA02;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -30,6 +34,8 @@ public class NavigationComposeVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA08));
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA09));
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA10));
+        proposal.add(new CompletionProposal(V_2_4_0_ALPHA01));
+        proposal.add(new CompletionProposal(V_2_4_0_ALPHA02));
         return proposal;
     }
 

@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import ${pkg}.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import ${pkg}.common.ImageSavedCallback
 import ${pkg}.theme.BlueprintMasterTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -15,7 +15,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ${pkg}.theme.BlueprintMasterTheme
