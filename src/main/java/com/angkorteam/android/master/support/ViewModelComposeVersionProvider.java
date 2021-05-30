@@ -24,7 +24,9 @@ public class ViewModelComposeVersionProvider extends ValueProviderSupport {
 
     public static final String V_1_0_0_ALPHA05 = "1.0.0-alpha05";
 
-    public static final String SELECTED = V_1_0_0_ALPHA05;
+    public static final String V_1_0_0_ALPHA06 = "1.0.0-alpha06";
+
+    public static final String SELECTED = V_1_0_0_ALPHA06;
 
     @Override
     public List<CompletionProposal> complete(MethodParameter parameter, CompletionContext completionContext, String[] hints) {
@@ -33,6 +35,7 @@ public class ViewModelComposeVersionProvider extends ValueProviderSupport {
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA03));
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA04));
         proposal.add(new CompletionProposal(V_1_0_0_ALPHA05));
+        proposal.add(new CompletionProposal(V_1_0_0_ALPHA06));
         return proposal;
     }
 
